@@ -71,13 +71,15 @@ class ConvertStringToDuration {
 
 /// Exception thrown by [ConvertStringToDuration] when the input is null.
 final class _StringIsNullEx extends ConvertStringToDurationEx {
-  const _StringIsNullEx() : super('Failed to convert string to duration: string is null.');
+  const _StringIsNullEx()
+      : super('Failed to convert string to duration: string is null.');
 }
 
 /// Exception thrown by [ConvertStringToDuration] when the input string format is invalid.
 final class _InvalidInputStringFormatEx extends ConvertStringToDurationEx {
   const _InvalidInputStringFormatEx()
-      : super('Failed to convert string to duration: invalid input string format.');
+      : super(
+            'Failed to convert string to duration: invalid input string format.',);
 }
 
 /// Exception thrown by [ConvertStringToDuration] when a problem occurs.
