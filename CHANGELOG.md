@@ -7,6 +7,7 @@
 - fix: Fix changelog
 - chore: Update changelog script to sort sections by version instead of releasedAt
 - chore: Test workflow update
+- Test
 
 ## [0.1.1]
 
