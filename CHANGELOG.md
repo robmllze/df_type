@@ -9,6 +9,7 @@
 - chore: Test workflow update
 - Test
 - chore: Update workflow & add tasks.json
+- refactor: Refactor exports in _index.g.dart
 
 ## [0.1.1]
 
