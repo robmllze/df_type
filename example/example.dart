@@ -7,6 +7,8 @@
 // ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
 //.title~
 
+// ignore_for_file: omit_local_variable_types
+
 import 'package:df_type/df_type.dart';
 
 // ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
@@ -38,7 +40,6 @@ void main() {
 
   // Convert a String to a Duration.
 
-  final Duration duration =
-      const ConvertStringToDuration('11:11:00.00').toDuration();
+  final Duration duration = const ConvertStringToDuration('11:11:00.00').toDuration();
   print(duration); // 11:11:00.000000
 }
