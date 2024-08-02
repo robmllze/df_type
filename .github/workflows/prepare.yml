@@ -24,5 +24,3 @@ on:
 jobs:
   prepare:
     uses: robmllze/pub.dev_package_workflow/workflows/prepare_reusable.yml@main
-    with:
-      branch: "main"
