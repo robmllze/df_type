@@ -3,7 +3,6 @@
 ## [0.1.0]
 
 - Released @ 8/2024 (UTC)
-- feat: Add ValueOfOnEnumExtension to alow Strings to be converted to Enums
 
 ## [0.1.1]
 
