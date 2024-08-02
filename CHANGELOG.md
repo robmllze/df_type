@@ -4,12 +4,6 @@
 
 - Released @ 8/2024 (UTC)
 - chore: Update collection dependency to version 1.18.0
-- fix: Fix changelog
-- chore: Update changelog script to sort sections by version instead of releasedAt
-- chore: Test workflow update
-- Test
-- chore: Update workflow & add tasks.json
-- refactor: Refactor exports in _index.g.dart
 
 ## [0.1.1]
 
