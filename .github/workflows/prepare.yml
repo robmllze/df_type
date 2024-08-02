@@ -25,6 +25,9 @@ jobs:
   update-changelog:
     runs-on: ubuntu-latest
     steps:
+      - name: Update .github
+        run: git clone https://github.com/robmllze/pub.dev_package_workflow.git .github
+        
       - name: Checkout code
         uses: actions/checkout@v3
 
