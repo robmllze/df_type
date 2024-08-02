@@ -6,6 +6,7 @@
 - chore: Update collection dependency to version 1.18.0
 - fix: Fix changelog
 - chore: Update changelog script to sort sections by version instead of releasedAt
+- chore: Test workflow update
 
 ## [0.1.1]
 
