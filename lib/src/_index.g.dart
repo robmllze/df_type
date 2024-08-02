@@ -12,6 +12,7 @@ export 'let.dart';
 export 'conversions/string_to_duration.dart';
 export 'type_checks/is_nullable.dart';
 export 'type_checks/type_equality.dart';
+export 'enum/value_of_on_enum_extension.dart';
 
 // --- PRIVATE FILES (EXCLUDED) ---
 // None found.

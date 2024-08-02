@@ -6,9 +6,9 @@ Dart & Flutter Packages by DevCetra.com & contributors.
 
 ## Summary
 
-A package designed to simplify and enhance interactions with Dart types. For a full feature set, please refer to the [API reference](https://pub.dev/documentation/df_type/) for more information.
+A package designed to simplify and enhance interactions with Dart types. For a full feature set, please refer to the [API reference](https://pub.dev/documentation/df_type/).
 
-## Usage
+## Usage Example
 
 ```dart
   // Lazy-convert any standard dart type (num, double, bool, String, Duration,
@@ -63,4 +63,4 @@ This is an open-source project, and contributions are welcome from everyone, reg
 
 ## License
 
-This project is released under the MIT License. See [LICENSE](https://raw.githubusercontent.com/robmllze/xyz_utils/main/LICENSE) for more information.
+This project is released under the MIT License. See [LICENSE](https://raw.githubusercontent.com/robmllze/df_type/main/LICENSE) for more information.
