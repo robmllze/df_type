@@ -4,7 +4,6 @@
 
 - Released @ 8/2024 (UTC)
 - chore: Update collection dependency to version 1.18.0
-- chore: Update workflow scripts
 
 ## [0.1.1]
 
