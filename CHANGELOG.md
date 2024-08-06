@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.1.4]
+
+- Released @ 8/2024 (UTC)
+- feat: Add TryOrNullOnFunctionExtension
+
 ## [0.1.3]
 
 - Released @ 8/2024 (UTC)
