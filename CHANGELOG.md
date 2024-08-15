@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.2.3]
+
+- Released @ 8/2024 (UTC)
+- docs: Update readme and topics in pubspec.yaml
+
 ## [0.2.2]
 
 - Released @ 8/2024 (UTC)
