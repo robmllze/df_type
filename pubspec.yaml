@@ -1,15 +1,16 @@
 ##.title
 ## ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
 ##
-## Dart/Flutter (DF) Packages by DevCetra.com & contributors. See LICENSE file
-## in root directory.
+## Dart/Flutter (DF) Packages by DevCetra.com & contributors. Use of this
+## source code is governed by an MIT-style license that can be found in the
+## LICENSE file.
 ##
 ## ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
 ##.title~
 
 name: df_type
 description: A package designed to simplify and enhance interactions with Dart types.
-version: 0.1.4
+version: 0.1.5
 repository: https://github.com/robmllze/df_type
 
 ## -----------------------------------------------------------------------------
@@ -20,7 +21,8 @@ environment:
 ## -----------------------------------------------------------------------------
 
 dependencies:
-  collection: ^1.18.0
+  collection: ^1.19.0
+  equatable: ^2.0.5
 
 ## -----------------------------------------------------------------------------
 

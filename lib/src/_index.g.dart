@@ -9,6 +9,7 @@
 
 // --- PUBLIC FILES ---
 export 'let.dart';
+export 'type_checks/is_equatable.dart';
 export 'type_checks/type_equality.dart';
 export 'type_checks/is_nullable.dart';
 export 'conversions/string_to_duration.dart';

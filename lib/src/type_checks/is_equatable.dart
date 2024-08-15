@@ -8,23 +8,51 @@
 // ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
 //.title~
 
-import 'package:collection/collection.dart';
+import 'package:equatable/equatable.dart';
 
 // ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
 
-extension ValueOfOnEnumExtension<T extends Enum> on Iterable<T> {
-  /// Returns the first element or `null` if there are none.
-  ///
-  /// **Example:**
-  ///
-  /// ```dart
-  /// enum ExampleEnum { a, b, c }
-  /// final value = ExampleEnum.values.valueOf('b');
-  /// print(ExampleEnum.b == value); // true
-  /// ```
-  T? valueOf(String? value) {
-    return this.firstWhereOrNull(
-      (type) => type.name.toLowerCase() == value?.toLowerCase(),
-    );
-  }
+/// Checks if T is any of the following types, which are directly comparable
+/// using the `==` operator and are passed by value:
+///
+/// - BigInt
+/// - bool
+/// - DateTime
+/// - double
+/// - Duration
+/// - Enum
+/// - int
+/// - num
+/// - Pattern
+/// - RegExp
+/// - Runes
+/// - StackTrace
+/// - String
+/// - Symbol
+/// - Type
+/// - Uri
+///
+/// Additionally, if T implements Equatable, it is also considered comparable.
+///
+/// Returns `true` if T is one of these types or implements Equatable.
+bool isEquatable<T>() {
+  return <Type>{
+    BigInt,
+    bool,
+    DateTime,
+    double,
+    Duration,
+    Enum,
+    int,
+    num,
+    Pattern,
+    RegExp,
+    Runes,
+    StackTrace,
+    String,
+    Symbol,
+    Type,
+    Uri,
+    Equatable,
+  }.contains(T);
 }
