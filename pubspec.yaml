@@ -10,8 +10,16 @@
 
 name: df_type
 description: A package designed to simplify and enhance interactions with Dart types.
-version: 0.2.2
+version: 0.2.3
 repository: https://github.com/robmllze/df_type
+funding:
+  - https://www.buymeacoffee.com/robmllze
+topics:
+  - data
+  - easy-packages
+  - tool
+  - utility
+  - utils
 
 ## -----------------------------------------------------------------------------
 
