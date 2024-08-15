@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.2.1]
+
+- Released @ 8/2024 (UTC)
+- chore: Downgrade collection dependency to version 1.18.0 for Flutter compatibility
+
 ## [0.2.0]
 
 - Released @ 8/2024 (UTC)
