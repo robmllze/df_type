@@ -23,7 +23,7 @@ extension ValueOfOnEnumExtension<T extends Enum> on Iterable<T> {
   /// print(ExampleEnum.b == value); // true
   /// ```
   T? valueOf(String? value) {
-    return this.firstWhereOrNull(
+    return firstWhereOrNull(
       (type) => type.name.toLowerCase() == value?.toLowerCase(),
     );
   }

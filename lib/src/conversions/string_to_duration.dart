@@ -32,8 +32,8 @@ class ConvertStringToDuration {
   ///
   /// Returns `null` if the conversion fails.
   Duration? toDurationOrNull() {
-    if (this.inputString == null || this.inputString!.isEmpty) return null;
-    final parts = this.inputString!.trim().split(':');
+    if (inputString == null || inputString!.isEmpty) return null;
+    final parts = inputString!.trim().split(':');
     var hours = 0;
     var minutes = 0;
     var seconds = 0;
@@ -83,11 +83,11 @@ class ConvertStringToDuration {
   /// [inputString] format is `HH:MM:SS.SSS`. Throws [ConvertStringToDurationEx]
   /// on error.
   Duration toDuration() {
-    if (this.inputString == null) {
+    if (inputString == null) {
       throw const _StringIsNullEx();
     }
     try {
-      final duration = this.toDurationOrNull()!;
+      final duration = toDurationOrNull()!;
       return duration;
     } catch (_) {
       throw const _InvalidInputStringFormatEx();
