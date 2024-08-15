@@ -5,6 +5,7 @@
 - Released @ 8/2024 (UTC)
 - feat: Add isEquatable function and update dependencies
 - chore: Update analysis_options.yaml
+- chore: Update example and readme to more clearly llustrate use cases
 
 ## [0.1.4]
 
