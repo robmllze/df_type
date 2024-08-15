@@ -11,34 +11,54 @@ A package designed to simplify and enhance interactions with Dart types. For a f
 ## Usage Example
 
 ```dart
-  // Lazy-convert any standard dart type (num, double, bool, String, Duration,
-  // DateTime, etc.) to an int if sensible or return null:
-  final int? i = letIntOrNull('55');
-  print(i); // 55
+enum Alphabet { A, B, C }
 
-  // Lazy-convert any map from one type to another if sensible, otherwise
-  // return null.
-  final Map<String, int>? m = letMapOrNull<String, int>({55: '56'});
-  print(m); // {55, 56}
+// Convert a String to an enum.
+print(Alphabet.values.valueOf('A') == Alphabet.A); // true
+print(Alphabet.values.valueOf('a') == Alphabet.A); // true
+print(Alphabet.values.valueOf('b')); // Alphabet.B
+print(Alphabet.values.valueOf('qwerty') == null); // true
 
-  // Lazy-convert comma separated strings, a value, or an iterable to a list if
-  // sensible, otherwise return null.
-  print(letListOrNull('1, 2, 3, 4')); // [1, 2, 3, 4]
-  print(letListOrNull('[1, 2, 3, 4]')); // [1, 2, 3, 4]
-  print(letListOrNull([1, 2, 3, 4])); // [1, 2, 3, 4]
-  print(letListOrNull(1)); // [1]
+// Check if a type is nullable or not.
+print(isNullable<String>()); // false
+print(isNullable<String?>()); // true
+print(isNullable<Null>()); // true
 
-  // Lazy-convert any value to a double if sensible, otherwise return null.
-  print(letOrNull<double>('123')); // 123.0
+// Check if a type can be compared by value.
+print(isEquatable<double>()); // true
+print(isEquatable<Null>()); // true
+print(isEquatable<Map>()); // false
+print(isEquatable<Equatable>()); // true
 
-  // Check if a type is nullable or not:
-  print(isNullable<int>()); // false
-  print(isNullable<int?>()); // true
+// Only let a value be of a certain type, or return null.
+print(letAsOrNull<String>(DateTime.now())); // null
+print(letAsOrNull<DateTime>(DateTime.now())); // returns the value
+print(letAsOrNull<DateTime?>(DateTime.now())); // returns the value
+print(letAsOrNull<DateTime?>(null)); // null
 
-  // Convert a String to a Duration.
+// Lazy-convert any standard dart type (num, double, bool, String, Duration,
+// DateTime, etc.) to an int if sensible or return null:
+final int? i = letIntOrNull('55');
+print(i); // 55
 
-  final Duration duration = const ConvertStringToDuration('11:11:00.00').toDuration();
-  print(duration); // 11:11:00.000000
+// Lazy-convert any map from one type to another if sensible, otherwise
+// return null.
+final Map<String, int>? m = letMapOrNull<String, int>({55: '56'});
+print(m); // {55, 56}
+
+// Lazy-convert comma separated strings, a value, or an iterable to a list if
+// sensible, otherwise return null.
+print(letListOrNull('1, 2, 3, 4')); // [1, 2, 3, 4]
+print(letListOrNull('[1, 2, 3, 4]')); // [1, 2, 3, 4]
+print(letListOrNull([1, 2, 3, 4])); // [1, 2, 3, 4]
+print(letListOrNull(1)); // [1]
+
+// Lazy-convert any value to a double if sensible, otherwise return null.
+print(letOrNull<double>('123')); // 123.0
+
+// Convert a String to a Duration.
+final Duration duration = const ConvertStringToDuration('11:11:00.00').toDuration();
+print(duration); // 11:11:00.000000
 ```
 
 ## Installation

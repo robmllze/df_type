@@ -22,6 +22,7 @@ import 'package:equatable/equatable.dart';
 /// - Duration
 /// - Enum
 /// - int
+/// - Null
 /// - num
 /// - Pattern
 /// - RegExp
@@ -44,6 +45,7 @@ bool isEquatable<T>() {
     Duration,
     Enum,
     int,
+    Null,
     num,
     Pattern,
     RegExp,
