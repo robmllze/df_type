@@ -9,6 +9,7 @@
 
 // --- PUBLIC FILES ---
 export 'let.dart';
+export 'function_queue.dart';
 export 'type_checks/is_equatable.dart';
 export 'type_checks/is_subtype.dart';
 export 'type_checks/type_equality.dart';

@@ -76,13 +76,13 @@ print(duration); // 11:11:00.000000
 final a1 = Future.value(1);
 final a2 = 2;
 final a3 = Future.value(3);
-final foc1 = FutureOrController([a1, a2, a3]);
+final foc1 = FutureOrController<dynamic>([() => a1, () => a2, () => a3]);
 final f1 = foc1.complete();
 print(f1 is Future); // true
 final b1 = 1;
 final b2 = 2;
 final b3 = 2;
-final foc2 = FutureOrController([b1, b2, b3]);
+final foc2 = FutureOrController<dynamic>([() => b1, () => b2, () => b3]);
 final f2 = foc2.complete();
 print(f2 is Future); // false
 
@@ -95,6 +95,35 @@ final completerOr2 = CompleterOr<int>();
 completerOr2.complete(Future.value(1));
 final c2 = completerOr2.futureOr;
 print(c2 is Future); // true
+
+
+// The FunctionQueue can ensure that async functions will execute in the same
+// order as they are added. This can be used for database writes, for example.
+final functionQueue = FunctionQueue();
+functionQueue.add(() async {
+print('Function 1 running');
+await Future<void>.delayed(const Duration(seconds: 3));
+print('Function 1 completed');
+});
+functionQueue.add(() async {
+print('Function 2 running');
+await Future<void>.delayed(const Duration(seconds: 2));
+print('Function 2 completed');
+});
+functionQueue.add(() async {
+print('Function 3 running');
+await Future<void>.delayed(const Duration(seconds: 1));
+print('Function 3 completed');
+});
+await functionQueue.wait();
+// Prints:
+// Function 1 running
+// Function 1 completed
+// Function 2 running
+// Function 2 completed
+// Function 3 running
+// Function 3 completed
+
 ```
 
 ## Installation

@@ -14,74 +14,85 @@ import 'dart:async';
 
 // ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
 
-/// A controller for managing [FutureOr] operations and their exceptions.
-class FutureOrController {
-  //
-  //
-  //
-
+/// A controller for managing [FutureOr] operations and capturing exceptions.
+class FutureOrController<T> {
   FutureOrController._();
 
-  factory FutureOrController([List<FutureOr<void>> values = const []]) {
-    final instance = FutureOrController._();
-    instance.addAll(values);
+  /// Factory constructor to create a [FutureOrController] with optional callbacks.
+  factory FutureOrController([_CallbackList<T> callbacks = const []]) {
+    final instance = FutureOrController<T>._();
+    instance.addAll(callbacks);
     return instance;
   }
 
-  /// Returns a copy of the list of futures added via [add] or [addAll].
-  List<Future<void>> get futures => List.of(_futures);
-  final _futures = <Future<void>>[];
+  /// List of callbacks to be managed by the controller.
+  final _callbacks = <_Callback<T>>[];
 
-  /// Returns a copy of the list of exceptions thrown by the futures or
-  /// added manually via [addException].
-  List<Object> get exceptions => List.of(_exceptions);
+  /// List of exceptions caught during callback execution or added manually via
+  /// [addException].
   final _exceptions = <Object>[];
 
-  /// Adds [value] to [futures] if it is a [Future].
-  void add(FutureOr<void> value) {
-    if (value is Future<void>) {
-      _futures.add(
-        value.catchError((Object e) {
-          _exceptions.add(e);
-          return Future<void>.error(e);
-        }),
-      );
-    }
-  }
-
-  /// Adds any element in [values] that is a [Future] to [futures].
-  void addAll(Iterable<FutureOr<void>> values) {
-    for (final value in values) {
-      add(value);
-    }
-  }
-
-  /// Adds [e] to [exceptions].
+  /// Adds an exception to the list of tracked exceptions.
   void addException(Object e) => _exceptions.add(e);
 
-  /// Shorthand for `completeWithValue<void>(() {})`.
-  FutureOr<void> complete() => completeWithValue<void>(() {});
+  /// Returns a copy of the list of tracked exceptions.
+  List<Object> get exceptions => List.of(_exceptions);
 
-  /// Awaits the completion of all [futures] and throws the first exception
-  /// found in [exceptions], if any.
+  /// Adds a single callback to the controller.
+  void add(_Callback<T> callback) {
+    _callbacks.add(callback);
+  }
+
+  /// Adds multiple callbacks to the controller.
+  void addAll(_CallbackList<T> callbacks) {
+    _callbacks.addAll(callbacks);
+  }
+
+  /// Evaluates all registered callbacks and returns the results as a list.
   ///
-  /// If there are [futures], returns a [Future] that completes once all are
-  /// finished.
-  ///
-  /// If no [futures] are present, it returns synchronously.
-  ///
-  /// The [value] callback is invoked after all [_futures] have completed.
-  FutureOr<T> completeWithValue<T>(T Function() value) {
-    if (_futures.isNotEmpty) {
-      return Future.wait(_futures).then((_) {
-        if (_exceptions.isNotEmpty) {
-          throw _exceptions.first;
+  /// If any exceptions occur during the execution of callbacks, they are added
+  /// to the [exceptions] list. The returned result will be a list of values
+  /// from the callbacks, wrapped in either a [Future] or the actual value.
+  /// Make sure to check the [exceptions] list after calling this method to
+  /// determine if any errors occurred.
+  FutureOr<List<T>> complete() {
+    final values = <FutureOr<T>>[];
+
+    // Evaluate all callbacks and collect exceptions.
+    for (final callback in _callbacks) {
+      try {
+        final value = callback();
+        if (value is Future<T>) {
+          values.add(
+            value.catchError((Object e) {
+              addException(e);
+              return Future<T>.error(e);
+            }),
+          );
+        } else {
+          values.add(value);
         }
-        return value();
-      });
-    } else if (_exceptions.isNotEmpty) {
-      throw _exceptions.first;
+      } catch (e) {
+        addException(e);
+      }
     }
-    return value();
+
+    // Determine if any results are asynchronous.
+    final hasFutures = values.any((e) => e is Future<T>);
+    if (hasFutures) {
+      final asFutures = values.map((e) => e is Future<T> ? e : Future<T>.value(e));
+      return Future.wait(asFutures);
+    } else {
+      final asNonFutures = values.map((e) => e as T).toList();
+      return asNonFutures;
+    }
   }
 }
+
+// ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+/// Type definition for a callback function that returns a [FutureOr] result.
+typedef _Callback<T> = FutureOr<T> Function();
+
+/// Type definition for a list of callback functions.
+typedef _CallbackList<T> = List<_Callback<T>>;
