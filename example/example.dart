@@ -70,12 +70,12 @@ void main() {
   print(letOrNull<double>('123')); // 123.0
 
   // Convert a String to a Duration.
-  final Duration duration =
-      const ConvertStringToDuration('11:11:00.00').toDuration();
+  final Duration duration = const ConvertStringToDuration('11:11:00.00').toDuration();
   print('--- 9 ---');
   print(duration); // 11:11:00.000000
 
   // Manage Futures or values via FutureOrController.
+  print('--- 10 ---');
   final a1 = Future.value(1);
   final a2 = 2;
   final a3 = Future.value(3);
@@ -90,6 +90,7 @@ void main() {
   print(f2 is Future); // false
 
   // CompleterOr works with async or sync values.
+  print('--- 11 ---');
   final completerOr1 = CompleterOr<int>();
   completerOr1.complete(1);
   final c1 = completerOr1.futureOr;
