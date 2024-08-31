@@ -59,6 +59,9 @@ class FutureOrController {
   /// Adds [e] to [exceptions].
   void addException(Object e) => _exceptions.add(e);
 
+  /// Shorthand for `completeWithValue<void>(() {})`.
+  FutureOr<void> complete() => completeWithValue<void>(() {});
+
   /// Awaits the completion of all [futures] and throws the first exception
   /// found in [exceptions], if any.
   ///
@@ -67,18 +70,18 @@ class FutureOrController {
   ///
   /// If no [futures] are present, it returns synchronously.
   ///
-  /// The [onComplete] callback is invoked after all [_futures] have completed.
-  FutureOr<T?> complete<T>([T Function()? onComplete]) {
+  /// The [value] callback is invoked after all [_futures] have completed.
+  FutureOr<T> completeWithValue<T>(T Function() value) {
     if (_futures.isNotEmpty) {
       return Future.wait(_futures).then((_) {
         if (_exceptions.isNotEmpty) {
           throw _exceptions.first;
         }
-        return onComplete?.call();
+        return value();
       });
     } else if (_exceptions.isNotEmpty) {
       throw _exceptions.first;
     }
-    return onComplete?.call();
+    return value();
   }
 }

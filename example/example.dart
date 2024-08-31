@@ -81,13 +81,13 @@ void main() {
   final a2 = 2;
   final a3 = Future.value(3);
   final foc1 = FutureOrController([a1, a2, a3]);
-  final f1 = foc1.complete<void>();
+  final f1 = foc1.complete();
   print(f1 is Future); // true
   final b1 = 1;
   final b2 = 2;
   final b3 = 2;
   final foc2 = FutureOrController([b1, b2, b3]);
-  final f2 = foc2.complete<void>();
+  final f2 = foc2.complete();
   print(f2 is Future); // false
 
   // CompleterOr works with async or sync values.
