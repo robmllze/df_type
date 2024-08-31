@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.3.2]
+
+- Released @ 8/2024 (UTC)
+- feat: Update FutureOrController complete method and add a completeWithValue method
+
 ## [0.3.1]
 
 - Released @ 8/2024 (UTC)
