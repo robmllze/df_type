@@ -68,17 +68,17 @@ class FutureOrController {
   /// If no [futures] are present, it returns synchronously.
   ///
   /// The [onComplete] callback is invoked after all [_futures] have completed.
-  FutureOr<void> complete([void Function()? onComplete]) {
+  FutureOr<T?> complete<T>([T Function()? onComplete]) {
     if (_futures.isNotEmpty) {
       return Future.wait(_futures).then((_) {
         if (_exceptions.isNotEmpty) {
           throw _exceptions.first;
         }
-        onComplete?.call();
+        return onComplete?.call();
       });
     } else if (_exceptions.isNotEmpty) {
       throw _exceptions.first;
     }
-    onComplete?.call();
+    return onComplete?.call();
   }
 }
