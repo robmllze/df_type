@@ -96,7 +96,6 @@ completerOr2.complete(Future.value(1));
 final c2 = completerOr2.futureOr;
 print(c2 is Future); // true
 
-
 // The FunctionQueue can ensure that async functions will execute in the same
 // order as they are added. This can be used for database writes, for example.
 final functionQueue = FunctionQueue();
