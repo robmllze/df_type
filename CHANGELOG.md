@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.3.1]
+
+- Released @ 8/2024 (UTC)
+- feat: Update FutureOrController complete method to return a value
+
 ## [0.3.0]
 
 - Released @ 8/2024 (UTC)
