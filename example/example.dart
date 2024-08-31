@@ -70,8 +70,7 @@ void main() async {
   print(letOrNull<double>('123')); // 123.0
 
   // Convert a String to a Duration.
-  final Duration duration =
-      const ConvertStringToDuration('11:11:00.00').toDuration();
+  final Duration duration = const ConvertStringToDuration('11:11:00.00').toDuration();
   print('--- 9 ---');
   print(duration); // 11:11:00.000000
 
@@ -81,14 +80,16 @@ void main() async {
   final a2 = 2;
   final a3 = Future.value(3);
   final foc1 = FutureOrController<dynamic>([() => a1, () => a2, () => a3]);
-  final f1 = foc1.complete();
+  final f1 = foc1.completeWithAll();
   print(f1 is Future); // true
+  print(await f1); // [1, 2, 3]
   final b1 = 1;
   final b2 = 2;
   final b3 = 2;
   final foc2 = FutureOrController<dynamic>([() => b1, () => b2, () => b3]);
-  final f2 = foc2.complete();
+  final f2 = foc2.completeWithAll();
   print(f2 is Future); // false
+  print(f2); // [1, 2, 3]
 
   // CompleterOr works with async or sync values.
   print('--- 11 ---');
@@ -128,6 +129,8 @@ void main() async {
   // Function 2 completed
   // Function 3 running
   // Function 3 completed
+  print(functionQueue.add(() => 'Hello!').runtimeType); // String
+  print(functionQueue.add(() => 'World!')); // World!
 }
 
 enum Alphabet { A, B, C }

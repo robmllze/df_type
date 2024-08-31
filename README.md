@@ -30,17 +30,8 @@ print(isNullable<Null>()); // true
 // Check if a type can be compared by value.
 print(isEquatable<double>()); // true
 print(isEquatable<Null>()); // true
-print(isEquatable<Map>()); // false
+print(isEquatable<Map<dynamic, dynamic>>()); // false
 print(isEquatable<Equatable>()); // true
-
-
-// Check if a type is a subtype of another type.
-print(isSubtype<int, num>()); // true, int is a num
-print(isSubtype<num, int>()); // false, num is not an int
-print(isSubtype<Future<int>, Future>()); // true, Future<int> is a Future
-print(isSubtype<Future, Future<int>>()); // false, Future is not a Future<int>
-print(isSubtype<int Function(int), Function>()); // true, int Function(int) is a Function
-print(isSubtype<Function, int Function(int)>()); // false, Function is not a int Function(int)
 
 // Only let a value be of a certain type, or return null.
 print(letAsOrNull<String>(DateTime.now())); // null
@@ -60,10 +51,10 @@ print(m); // {55, 56}
 
 // Lazy-convert comma separated strings, a value, or an iterable to a list if
 // sensible, otherwise return null.
-print(letListOrNull('1, 2, 3, 4')); // [1, 2, 3, 4]
-print(letListOrNull('[1, 2, 3, 4]')); // [1, 2, 3, 4]
-print(letListOrNull([1, 2, 3, 4])); // [1, 2, 3, 4]
-print(letListOrNull(1)); // [1]
+print(letListOrNull<int>('1, 2, 3, 4')); // [1, 2, 3, 4]
+print(letListOrNull<int>('[1, 2, 3, 4]')); // [1, 2, 3, 4]
+print(letListOrNull<int>([1, 2, 3, 4])); // [1, 2, 3, 4]
+print(letListOrNull<int>(1)); // [1]
 
 // Lazy-convert any value to a double if sensible, otherwise return null.
 print(letOrNull<double>('123')); // 123.0
@@ -77,14 +68,16 @@ final a1 = Future.value(1);
 final a2 = 2;
 final a3 = Future.value(3);
 final foc1 = FutureOrController<dynamic>([() => a1, () => a2, () => a3]);
-final f1 = foc1.complete();
+final f1 = foc1.completeWithAll();
 print(f1 is Future); // true
+print(await f1); // [1, 2, 3]
 final b1 = 1;
 final b2 = 2;
 final b3 = 2;
 final foc2 = FutureOrController<dynamic>([() => b1, () => b2, () => b3]);
-final f2 = foc2.complete();
+final f2 = foc2.completeWithAll();
 print(f2 is Future); // false
+print(f2); // [1, 2, 3]
 
 // CompleterOr works with async or sync values.
 final completerOr1 = CompleterOr<int>();
@@ -122,7 +115,8 @@ await functionQueue.wait();
 // Function 2 completed
 // Function 3 running
 // Function 3 completed
-
+print(functionQueue.add(() => 'Hello!').runtimeType); // String
+print(functionQueue.add(() => 'World!')); // World!
 ```
 
 ## Installation

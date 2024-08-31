@@ -12,6 +12,8 @@
 
 import 'dart:async';
 
+import '/src/_index.g.dart';
+
 // ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
 
 /// A controller for managing [FutureOr] operations and capturing exceptions.
@@ -48,44 +50,54 @@ class FutureOrController<T> {
     _callbacks.addAll(callbacks);
   }
 
-  /// Evaluates all registered callbacks and returns the results as a list.
+  /// Evaluates all registered callbacks.
+  FutureOr<void> complete() {
+    return completeWithResults<void>((results) {});
+  }
+
+  /// Evaluates all registered callbacks and returns the first result.
+  FutureOr<T> completeWithFirst() =>
+      completeWithResults<T>((r) => r is Future<List<T>> ? r.then((e) => e.first) : r.first);
+
+  /// Evaluates all registered callbacks and returns the last result.
+  FutureOr<T> completeWithLast() =>
+      completeWithResults<T>((r) => r is Future<List<T>> ? r.then((e) => e.last) : r.last);
+
+  /// Evaluates all registered callbacks and returns all the results.
+  FutureOr<List<T>> completeWithAll() => completeWithResults((r) => r);
+
+  /// Evaluates all registered callbacks and returns the results, as
+  /// determined by the [consolodator] function.
   ///
   /// If any exceptions occur during the execution of callbacks, they are added
-  /// to the [exceptions] list. The returned result will be a list of values
-  /// from the callbacks, wrapped in either a [Future] or the actual value.
-  /// Make sure to check the [exceptions] list after calling this method to
-  /// determine if any errors occurred.
-  FutureOr<List<T>> complete() {
+  /// to the [exceptions] list.
+  FutureOr<R> completeWithResults<R>(
+    FutureOr<R> Function(FutureOr<List<T>> values) consolodator,
+  ) {
     final values = <FutureOr<T>>[];
+
+    final fc = FunctionQueue();
 
     // Evaluate all callbacks and collect exceptions.
     for (final callback in _callbacks) {
       try {
-        final value = callback();
-        if (value is Future<T>) {
-          values.add(
-            value.catchError((Object e) {
-              addException(e);
-              return Future<T>.error(e);
-            }),
-          );
-        } else {
-          values.add(value);
+        final test = fc.add(callback);
+        values.add(test);
+        if (test is Future<T>) {
+          test.catchError((Object e) {
+            addException(e);
+            return Future<T>.error(e);
+          });
         }
       } catch (e) {
         addException(e);
       }
     }
-
-    // Determine if any results are asynchronous.
-    final hasFutures = values.any((e) => e is Future<T>);
-    if (hasFutures) {
-      final asFutures =
-          values.map((e) => e is Future<T> ? e : Future<T>.value(e));
-      return Future.wait(asFutures);
+    final waited = fc.wait();
+    if (waited is Future<void>) {
+      return waited.then((e) => consolodator(Future.wait(values.map((e) async => await e))));
     } else {
-      final asNonFutures = values.map((e) => e as T).toList();
-      return asNonFutures;
+      return consolodator(values.map((e) => e as T).toList());
     }
   }
 }

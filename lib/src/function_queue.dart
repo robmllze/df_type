@@ -10,7 +10,9 @@
 // ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
 //.title~
 
-import 'dart:async' show Completer;
+import 'dart:async' show FutureOr;
+
+import '../df_type.dart';
 
 // ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
 
@@ -45,22 +47,26 @@ class FunctionQueue {
   /// If the [buffer] parameter is provided, the function is wrapped in a new
   /// function that waits for the buffer duration before executing the
   /// original function.
-  Future<T> add<T>(
-    Future<T> Function() f, {
+  FutureOr<T> add<T>(
+    FutureOr<T> Function() f, {
     Duration? buffer,
-  }) async {
+  }) {
     final q = _Queueable<T>(
       buffer == null
           ? f
           : () async => (await Future.wait<T>([
-                f(),
+                Future.value(f()),
                 Future.delayed(buffer),
               ]))
                   .first,
     );
     _queue.add(q);
-    await _execute();
-    return q._completer.future;
+    final temp = _execute();
+    if (temp is Future) {
+      return temp.then((_) => q._completer.futureOr);
+    } else {
+      return q._completer.futureOr;
+    }
   }
 
   //
@@ -75,9 +81,9 @@ class FunctionQueue {
   //
   //
 
-  Future<void> wait() async {
+  FutureOr<void> wait() {
     if (isNotEmpty) {
-      await add(() async {});
+      return add(() {});
     }
   }
 
@@ -87,7 +93,7 @@ class FunctionQueue {
 
   /// Executes the next function in the queue, if the queue is not empty and
   /// no other function is currently running.
-  Future<void> _execute() async {
+  FutureOr<void> _execute() {
     for (final l in _queue
       ..removeWhere(
         (e) => e._status == _QueueableStatus.RAN,
@@ -96,10 +102,18 @@ class FunctionQueue {
       if (status == _QueueableStatus.RUNNING) break;
       if (status == _QueueableStatus.READY) {
         l._status = _QueueableStatus.RUNNING;
-        l._completer.complete(await l._function());
-        l._status = _QueueableStatus.RAN;
-        await _execute();
-        break;
+        final temp = l._function();
+        if (temp is Future) {
+          return temp.then((value) {
+            l._completer.complete(value);
+            l._status = _QueueableStatus.RAN;
+            return _execute();
+          });
+        } else {
+          l._completer.complete(temp);
+          l._status = _QueueableStatus.RAN;
+          return _execute();
+        }
       }
     }
   }
@@ -112,9 +126,9 @@ class FunctionQueue {
 // function, as well as a status that indicates whether the function has
 // been run yet.
 class _Queueable<T> {
-  final _completer = Completer<T>();
+  final _completer = CompleterOr<T>();
   var _status = _QueueableStatus.READY;
-  final Future<T> Function() _function;
+  final FutureOr<T> Function() _function;
   _Queueable(this._function);
 }
 
