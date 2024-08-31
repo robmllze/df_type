@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.3.0]
+
+- Released @ 8/2024 (UTC)
+- breaking: Simplify let functions, add FutureOrManager, CompleterOr
+
 ## [0.2.3]
 
 - Released @ 8/2024 (UTC)
