@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.4.0]
+
+- Released @ 8/2024 (UTC)
+- breaking: Improve FutureOrManager and add new feature, FunctionQueue
+
 ## [0.3.2]
 
 - Released @ 8/2024 (UTC)

@@ -70,7 +70,8 @@ void main() async {
   print(letOrNull<double>('123')); // 123.0
 
   // Convert a String to a Duration.
-  final Duration duration = const ConvertStringToDuration('11:11:00.00').toDuration();
+  final Duration duration =
+      const ConvertStringToDuration('11:11:00.00').toDuration();
   print('--- 9 ---');
   print(duration); // 11:11:00.000000
 
@@ -102,7 +103,7 @@ void main() async {
 
   // The FunctionQueue can ensure that async functions will execute in the same
   // order as they are added. This can be used for database writes, for example.
-   print('--- 12 ---');
+  print('--- 12 ---');
   final functionQueue = FunctionQueue();
   functionQueue.add(() async {
     print('Function 1 running');

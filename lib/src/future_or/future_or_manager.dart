@@ -80,7 +80,8 @@ class FutureOrController<T> {
     // Determine if any results are asynchronous.
     final hasFutures = values.any((e) => e is Future<T>);
     if (hasFutures) {
-      final asFutures = values.map((e) => e is Future<T> ? e : Future<T>.value(e));
+      final asFutures =
+          values.map((e) => e is Future<T> ? e : Future<T>.value(e));
       return Future.wait(asFutures);
     } else {
       final asNonFutures = values.map((e) => e as T).toList();
