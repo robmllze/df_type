@@ -93,19 +93,19 @@ print(c2 is Future); // true
 // order as they are added. This can be used for database writes, for example.
 final functionQueue = FunctionQueue();
 functionQueue.add(() async {
-print('Function 1 running');
-await Future<void>.delayed(const Duration(seconds: 3));
-print('Function 1 completed');
+  print('Function 1 running');
+   await Future<void>.delayed(const Duration(seconds: 3));
+  print('Function 1 completed');
 });
 functionQueue.add(() async {
-print('Function 2 running');
-await Future<void>.delayed(const Duration(seconds: 2));
-print('Function 2 completed');
+  print('Function 2 running');
+  await Future<void>.delayed(const Duration(seconds: 2));
+  print('Function 2 completed');
 });
 functionQueue.add(() async {
-print('Function 3 running');
-await Future<void>.delayed(const Duration(seconds: 1));
-print('Function 3 completed');
+  print('Function 3 running');
+  await Future<void>.delayed(const Duration(seconds: 1));
+  print('Function 3 completed');
 });
 await functionQueue.wait();
 // Prints:

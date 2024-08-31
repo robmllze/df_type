@@ -38,7 +38,7 @@ class FutureOrController<T> {
   void addException(Object e) => _exceptions.add(e);
 
   /// Returns a copy of the list of tracked exceptions.
-  List<Object> get exceptions => List.of(_exceptions);
+  List<Object> get exceptions => List.unmodifiable(_exceptions);
 
   /// Adds a single callback to the controller.
   void add(_Callback<T> callback) {
