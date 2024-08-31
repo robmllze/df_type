@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.4.1]
+
+- Released @ 8/2024 (UTC)
+- chore: Improve FunctionQueue to take FutureOr and improve FutureOrManager
+
 ## [0.4.0]
 
 - Released @ 8/2024 (UTC)

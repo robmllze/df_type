@@ -70,7 +70,8 @@ void main() async {
   print(letOrNull<double>('123')); // 123.0
 
   // Convert a String to a Duration.
-  final Duration duration = const ConvertStringToDuration('11:11:00.00').toDuration();
+  final Duration duration =
+      const ConvertStringToDuration('11:11:00.00').toDuration();
   print('--- 9 ---');
   print(duration); // 11:11:00.000000
 
