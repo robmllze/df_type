@@ -1,9 +1,11 @@
 //.title
 // ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
 //
-// Dart/Flutter (DF) Packages by DevCetra.com & contributors. Use of this
-// source code is governed by an MIT-style license that can be found in the
-// LICENSE file.
+// Dart/Flutter (DF) Packages by DevCetra.com & contributors. The use of this
+// source code is governed by an MIT-style license described in the LICENSE
+// file located in this project's root directory.
+//
+// See: https://opensource.org/license/mit
 //
 // ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
 //.title~
@@ -14,48 +16,7 @@ import '_index.g.dart';
 
 // ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
 
-/// Alias for [letAsOrNull].
-final letAs = letAsOrNull;
-
-/// Alias for [letOrNull].
-final let = letOrNull;
-
-/// Alias for [letNumOrNull].
-final letNum = letNumOrNull;
-
-/// Alias for [letIntOrNull].
-final letInt = letIntOrNull;
-
-/// Alias for [letDoubleOrNull].
-final letDouble = letDoubleOrNull;
-
-/// Alias for [letBoolOrNull].
-final letBool = letBoolOrNull;
-
-/// Alias for [letUriOrNull].
-final letUri = letUriOrNull;
-
-/// Alias for [letDateTimeOrNull].
-final letDateTime = letDateTimeOrNull;
-
-/// Alias for [letDurationOrNull].
-final letDuration = letDurationOrNull;
-
-/// Alias for [letMapOrNull].
-final letMap = letMapOrNull;
-
-/// Alias for [letIterableOrNull].
-final letIterable = letIterableOrNull;
-
-/// Alias for [letListOrNull].
-final letList = letListOrNull;
-
-/// Alias for [letSetOrNull].
-final letSet = letSetOrNull;
-
-// ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
-
-/// Let's you cast [input] to a [T] type if possible, or returns null if the
+/// Let's you cast [input] to a [T] type if possible, or returns `null` if the
 /// cast cannot be performed.
 T? letAsOrNull<T>(dynamic input) => input is T ? input : null;
 
@@ -68,8 +29,8 @@ T? castAsOrNull<T>(dynamic input) {
   }
 }
 
-/// Let's you convert [input] to a [T] type if possible, or returns null if the
-/// conversion cannot be performed.
+/// Let's you convert [input] to a [T] type if possible, or returns `null` if
+/// the conversion cannot be performed.
 ///
 /// Supported types:
 ///
@@ -79,25 +40,22 @@ T? castAsOrNull<T>(dynamic input) {
 /// - num
 /// - String
 /// - DateTime
-/// - Duration
 /// - Uri
 T? letOrNull<T>(dynamic input) {
   try {
-    if (T == dynamic) return input;
+    if (T == dynamic) return input as T;
     if (input == null && T != Null) return null;
     if (T == input.runtimeType) return input as T;
     if (typeEquality<T, double>() || typeEquality<T, double?>()) {
       return letDoubleOrNull(input) as T;
     } else if (typeEquality<T, int>() || typeEquality<T, int?>()) {
-      return letInt(input) as T;
+      return letIntOrNull(input) as T;
     } else if (typeEquality<T, num>() || typeEquality<T, num?>()) {
       return letNumOrNull(input) as T;
     } else if (typeEquality<T, bool>() || typeEquality<T, bool?>()) {
       return letBoolOrNull(input) as T;
     } else if (typeEquality<T, DateTime>() || typeEquality<T, DateTime?>()) {
       return letDateTimeOrNull(input) as T;
-    } else if (typeEquality<T, Duration>() || typeEquality<T, Duration?>()) {
-      return letDurationOrNull(input) as T;
     } else if (typeEquality<T, Uri>() || typeEquality<T, Uri?>()) {
       return letUriOrNull(input) as T;
     } else if (typeEquality<T, String>() || typeEquality<T, String?>()) {
@@ -108,8 +66,8 @@ T? letOrNull<T>(dynamic input) {
   return null;
 }
 
-/// Let's you convert [input] to a [num] type if possible, or returns null if the
-/// conversion cannot be performed.
+/// Let's you convert [input] to a [num] type if possible, or returns `null` if
+/// the conversion cannot be performed.
 num? letNumOrNull(dynamic input) {
   if (input is num) return input;
   if (input is String) {
@@ -117,29 +75,23 @@ num? letNumOrNull(dynamic input) {
     return num.tryParse(trimmed) ??
         ConvertStringToDuration(trimmed).toDurationOrNull()?.inMilliseconds;
   }
-  if (input is Duration) return input.inMilliseconds;
-  if (input is DateTime) return input.millisecondsSinceEpoch;
   if (input is bool) return input ? 1 : 0;
-  try {
-    // Assume input is a Timestamp (from Firestore package).
-    return input.millisecondsSinceEpoch;
-  } catch (_) {}
   return null;
 }
 
-/// Let's you convert [input] to an [int] type if possible, or returns null if
+/// Let's you convert [input] to an [int] type if possible, or returns `null` if
 /// the conversion cannot be performed.
 int? letIntOrNull(dynamic input) {
   return letNumOrNull(input)?.toInt();
 }
 
-/// Let's you convert [input] to a [double] type if possible, or returns null if
+/// Let's you convert [input] to a [double] type if possible, or returns `null` if
 /// the conversion cannot be performed.
 double? letDoubleOrNull(dynamic input) {
   return letNumOrNull(input)?.toDouble();
 }
 
-/// Let's you convert [input] to a [bool] type if possible, or returns null if
+/// Let's you convert [input] to a [bool] type if possible, or returns `null` if
 /// the conversion cannot be performed.
 bool? letBoolOrNull(dynamic input) {
   if (input is bool) return input;
@@ -148,7 +100,7 @@ bool? letBoolOrNull(dynamic input) {
   return null;
 }
 
-/// Let's you convert [input] to a [Uri] type if possible, or returns null if
+/// Let's you convert [input] to a [Uri] type if possible, or returns `null` if
 /// the conversion cannot be performed.
 Uri? letUriOrNull(dynamic input) {
   if (input is Uri) return input;
@@ -165,49 +117,15 @@ DateTime? letDateTimeOrNull(dynamic input) {
   if (input is String) {
     return DateTime.tryParse(input);
   }
-  if (input is Duration) {
-    return DateTime.fromMillisecondsSinceEpoch(input.inMilliseconds);
-  }
-  if (input is int) {
-    return DateTime.fromMillisecondsSinceEpoch(input);
-  }
-  if (input is num) {
-    return DateTime.fromMillisecondsSinceEpoch(input.round());
-  }
   return null;
 }
 
-/// Let's you convert [input] to a [Duration] type if possible, or returns null
-/// if the conversion cannot be performed.
-Duration? letDurationOrNull(dynamic input) {
-  if (input is Duration) {
-    return input;
-  }
-  if (input is int) {
-    return Duration(milliseconds: input);
-  }
-  if (input is DateTime) {
-    return Duration(milliseconds: input.millisecondsSinceEpoch);
-  }
-  if (input is String) {
-    return ConvertStringToDuration(input).toDurationOrNull();
-  }
-  if (input is num) {
-    return Duration(milliseconds: input.round());
-  }
-  try {
-    // Assume input is a Timestamp (from Firestore package).
-    return Duration(milliseconds: input.millisecondsSinceEpoch);
-  } catch (_) {}
-  return null;
-}
-
-/// Let's you convert [input] to a [Map] type if possible, or returns null if
+/// Let's you convert [input] to a [Map] type if possible, or returns `null` if
 /// the conversion cannot be performed.
 ///
-/// If [filterNulls] is true, the returned map will not contain any null keys or
+/// If [filterNulls] is true, the returned map will not contain any `null` keys or
 /// values. If [nullFallback] is provided, it will be used as a fallback value
-/// for null keys and values.
+/// for `null` keys and values.
 Map<K, V>? letMapOrNull<K, V>(
   dynamic input, {
   bool filterNulls = false,
@@ -226,8 +144,7 @@ Map<K, V>? letMapOrNull<K, V>(
       final temp = decoded.entries
           .map((entry) {
             final convertedKey = letOrNull<K>(entry.key);
-            final convertedValue =
-                letOrNull<V>(entry.value) ?? letOrNull<V?>(nullFallback);
+            final convertedValue = letOrNull<V>(entry.value) ?? letOrNull<V?>(nullFallback);
             if (filterNulls) {
               if (!isNullable<K>() && convertedKey == null) {
                 return const _Empty();
@@ -251,7 +168,7 @@ Map<K, V>? letMapOrNull<K, V>(
 ///
 /// If [filterNulls] is true, the returned iterable will not contain any null
 /// values. If [nullFallback] is provided, it will be used as a fallback value
-/// for null values.
+/// for `null` values.
 Iterable<T>? letIterableOrNull<T>(
   dynamic input, {
   bool filterNulls = false,
@@ -284,15 +201,15 @@ Iterable<T>? letIterableOrNull<T>(
       return c;
     } catch (_) {}
   }
-  return [input];
+  return [input as T];
 }
 
-/// Let's you convert [input] to a [List] type if possible, or returns null if
+/// Let's you convert [input] to a [List] type if possible, or returns `null` if
 /// the conversion cannot be performed.
 ///
 /// If [filterNulls] is true, the returned list will not contain any null
 /// values. If [nullFallback] is provided, it will be used as a fallback value
-/// for null values.
+/// for `null` values.
 List<T>? letListOrNull<T>(
   dynamic input, {
   bool filterNulls = false,
@@ -305,12 +222,12 @@ List<T>? letListOrNull<T>(
   )?.toList();
 }
 
-/// Let's you convert [input] to a [Set] type if possible, or returns null if
+/// Let's you convert [input] to a [Set] type if possible, or returns `null` if
 /// the conversion cannot be performed.
 ///
 /// If [filterNulls] is true, the returned set will not contain any null
 /// values. If [nullFallback] is provided, it will be used as a fallback value
-/// for null values.
+/// for `null` values.
 Set<T>? letSetOrNull<T>(
   dynamic input, {
   bool filterNulls = false,
@@ -324,7 +241,7 @@ Set<T>? letSetOrNull<T>(
 }
 
 /// Let's you convert [input] to an Iterable of Strings if possible, or returns
-/// null if the conversion cannot be performed.
+/// `null` if the conversion cannot be performed.
 ///
 /// The input string can be comma-separated, or it can be a JSON array.
 Iterable<String> letIterableFromCsv(String input) {
@@ -341,7 +258,7 @@ Iterable<String> letIterableFromCsv(String input) {
 
 // ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
 
-/// Used to filter out null values from a Map or Iterable.
+/// Used to filter out `null` values from a Map or Iterable.
 class _Empty {
   const _Empty();
 }

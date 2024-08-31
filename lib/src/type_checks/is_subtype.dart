@@ -10,19 +10,14 @@
 // ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
 //.title~
 
-extension TryOrNullOnFunctionExtension on Function {
-  T? tryOrNull<T>(
-    List<dynamic>? positionalArguments, [
-    Map<Symbol, dynamic>? namedArguments,
-  ]) {
-    try {
-      return Function.apply(
-        this,
-        positionalArguments ?? [],
-        namedArguments ?? {},
-      ) as T?;
-    } catch (_) {
-      return null;
-    }
-  }
-}
+/// Returns true if A is a subtype of B.
+///
+/// ```dart
+/// print(isSubtype<int, num>()); // true, int is a num
+/// print(isSubtype<num, int>()); // false, num is not an int
+/// print(isSubtype<Future<int>, Future>()); // true, Future<int> is a Future
+/// print(isSubtype<Future, Future<int>>()); // false, Future is not a Future<int>
+/// print(isSubtype<int Function(int), Function>()); // true, int Function(int) is a Function
+/// print(isSubtype<Function, int Function(int)>()); // false, Function is not a int Function(int)
+/// ```
+bool isSubtype<TChild, TParent>() => <TChild>[] is List<TParent>;

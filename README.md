@@ -1,4 +1,4 @@
-# DF Type
+# DF - Type
 
 <a href="https://www.buymeacoffee.com/robmllze" target="_blank"><img align="right" src="https://cdn.buymeacoffee.com/buttons/default-orange.png" alt="Buy Me A Coffee" height="41" width="174"></a>
 
@@ -33,6 +33,15 @@ print(isEquatable<Null>()); // true
 print(isEquatable<Map>()); // false
 print(isEquatable<Equatable>()); // true
 
+
+// Check if a type is a subtype of another type.
+print(isSubtype<int, num>()); // true, int is a num
+print(isSubtype<num, int>()); // false, num is not an int
+print(isSubtype<Future<int>, Future>()); // true, Future<int> is a Future
+print(isSubtype<Future, Future<int>>()); // false, Future is not a Future<int>
+print(isSubtype<int Function(int), Function>()); // true, int Function(int) is a Function
+print(isSubtype<Function, int Function(int)>()); // false, Function is not a int Function(int)
+
 // Only let a value be of a certain type, or return null.
 print(letAsOrNull<String>(DateTime.now())); // null
 print(letAsOrNull<DateTime>(DateTime.now())); // returns the value
@@ -62,6 +71,30 @@ print(letOrNull<double>('123')); // 123.0
 // Convert a String to a Duration.
 final Duration duration = const ConvertStringToDuration('11:11:00.00').toDuration();
 print(duration); // 11:11:00.000000
+
+// Manage Futures or values via FutureOrController.
+final a1 = Future.value(1);
+final a2 = 2;
+final a3 = Future.value(3);
+final foc1 = FutureOrController([a1, a2, a3]);
+final f1 = foc1.complete();
+print(f1 is Future); // true
+final b1 = 1;
+final b2 = 2;
+final b3 = 2;
+final foc2 = FutureOrController([b1, b2, b3]);
+final f2 = foc2.complete();
+print(f2 is Future); // false
+
+// CompleterOr works with async or sync values.
+final completerOr1 = CompleterOr<int>();
+completerOr1.complete(1);
+final c1 = completerOr1.futureOr;
+print(c1 is Future); // false
+final completerOr2 = CompleterOr<int>();
+completerOr2.complete(Future.value(1));
+final c2 = completerOr2.futureOr;
+print(c2 is Future); // true
 ```
 
 ## Installation
@@ -76,7 +109,6 @@ This is an open-source project, and we warmly welcome contributions from everyon
 
 ### Ways you can contribute:
 
-- **Join the discussions and ask questions:** Your curiosity can lead to valuable insights and improvements.
 - **Buy me a coffee:** If you'd like to support the project financially, consider [buying me a coffee](https://www.buymeacoffee.com/robmllze). Your support helps cover the costs of development and keeps the project growing.
 - **Share your ideas:** Every perspective matters, and your ideas can spark innovation.
 - **Report bugs:** Help us identify and fix issues to make the project more robust.
@@ -87,14 +119,6 @@ This is an open-source project, and we warmly welcome contributions from everyon
 No matter how you choose to contribute, your involvement is greatly appreciated and valued!
 
 ---
-
-### Join Reddit Discussions:
-
-💬 https://www.reddit.com/r/df_type/
-
-### Join GitHub Discussions:
-
-💬 https://github.com/robmllze/df_type/discussions/
 
 ### Chief Maintainer:
 

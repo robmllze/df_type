@@ -1,9 +1,11 @@
 //.title
 // ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
 //
-// Dart/Flutter (DF) Packages by DevCetra.com & contributors. Use of this
-// source code is governed by an MIT-style license that can be found in the
-// LICENSE file.
+// Dart/Flutter (DF) Packages by DevCetra.com & contributors. The use of this
+// source code is governed by an MIT-style license described in the LICENSE
+// file located in this project's root directory.
+//
+// See: https://opensource.org/license/mit
 //
 // ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
 //.title~
@@ -33,7 +35,7 @@ void main() {
   print('--- 3 ---');
   print(isEquatable<double>()); // true
   print(isEquatable<Null>()); // true
-  print(isEquatable<Map>()); // false
+  print(isEquatable<Map<dynamic, dynamic>>()); // false
   print(isEquatable<Equatable>()); // true
 
   // Only let a value be of a certain type, or return null.
@@ -58,20 +60,43 @@ void main() {
   // Lazy-convert comma separated strings, a value, or an iterable to a list if
   // sensible, otherwise return null.
   print('--- 7 ---');
-  print(letListOrNull('1, 2, 3, 4')); // [1, 2, 3, 4]
-  print(letListOrNull('[1, 2, 3, 4]')); // [1, 2, 3, 4]
-  print(letListOrNull([1, 2, 3, 4])); // [1, 2, 3, 4]
-  print(letListOrNull(1)); // [1]
+  print(letListOrNull<int>('1, 2, 3, 4')); // [1, 2, 3, 4]
+  print(letListOrNull<int>('[1, 2, 3, 4]')); // [1, 2, 3, 4]
+  print(letListOrNull<int>([1, 2, 3, 4])); // [1, 2, 3, 4]
+  print(letListOrNull<int>(1)); // [1]
 
   // Lazy-convert any value to a double if sensible, otherwise return null.
   print('--- 8 ---');
   print(letOrNull<double>('123')); // 123.0
 
   // Convert a String to a Duration.
-  final Duration duration =
-      const ConvertStringToDuration('11:11:00.00').toDuration();
+  final Duration duration = const ConvertStringToDuration('11:11:00.00').toDuration();
   print('--- 9 ---');
   print(duration); // 11:11:00.000000
+
+  // Manage Futures or values via FutureOrController.
+  final a1 = Future.value(1);
+  final a2 = 2;
+  final a3 = Future.value(3);
+  final foc1 = FutureOrController([a1, a2, a3]);
+  final f1 = foc1.complete();
+  print(f1 is Future); // true
+  final b1 = 1;
+  final b2 = 2;
+  final b3 = 2;
+  final foc2 = FutureOrController([b1, b2, b3]);
+  final f2 = foc2.complete();
+  print(f2 is Future); // false
+
+  // CompleterOr works with async or sync values.
+  final completerOr1 = CompleterOr<int>();
+  completerOr1.complete(1);
+  final c1 = completerOr1.futureOr;
+  print(c1 is Future); // false
+  final completerOr2 = CompleterOr<int>();
+  completerOr2.complete(Future.value(1));
+  final c2 = completerOr2.futureOr;
+  print(c2 is Future); // true
 }
 
 enum Alphabet { A, B, C }
