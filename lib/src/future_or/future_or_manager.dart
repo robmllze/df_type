@@ -57,11 +57,13 @@ class FutureOrController<T> {
 
   /// Evaluates all registered callbacks and returns the first result.
   FutureOr<T> completeWithFirst() => completeWithResults<T>(
-      (r) => r is Future<List<T>> ? r.then((e) => e.first) : r.first,);
+        (r) => r is Future<List<T>> ? r.then((e) => e.first) : r.first,
+      );
 
   /// Evaluates all registered callbacks and returns the last result.
   FutureOr<T> completeWithLast() => completeWithResults<T>(
-      (r) => r is Future<List<T>> ? r.then((e) => e.last) : r.last,);
+        (r) => r is Future<List<T>> ? r.then((e) => e.last) : r.last,
+      );
 
   /// Evaluates all registered callbacks and returns all the results.
   FutureOr<List<T>> completeWithAll() => completeWithResults((r) => r);
@@ -96,7 +98,8 @@ class FutureOrController<T> {
     final waited = fc.wait();
     if (waited is Future<void>) {
       return waited.then(
-          (e) => consolodator(Future.wait(values.map((e) async => await e))),);
+        (e) => consolodator(Future.wait(values.map((e) async => await e))),
+      );
     } else {
       return consolodator(values.map((e) => e as T).toList());
     }

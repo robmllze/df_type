@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.4.2]
+
+- Released @ 8/2024 (UTC)
+- chore: Apply minor tweaks
+
 ## [0.4.1]
 
 - Released @ 8/2024 (UTC)
