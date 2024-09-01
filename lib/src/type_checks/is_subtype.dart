@@ -15,8 +15,8 @@
 /// ```dart
 /// print(isSubtype<int, num>()); // true, int is a num
 /// print(isSubtype<num, int>()); // false, num is not an int
-/// print(isSubtype<Future<int>, Future>()); // true, Future<int> is a Future
-/// print(isSubtype<Future, Future<int>>()); // false, Future is not a Future<int>
+/// print(isSubtype<Future<int>, Future<dynamic>>()); // true, Future<int> is a Future<dynamic>
+/// print(isSubtype<Future<dynamic>, Future<int>>()); // false, Future<dynamic> is not a Future<int>
 /// print(isSubtype<int Function(int), Function>()); // true, int Function(int) is a Function
 /// print(isSubtype<Function, int Function(int)>()); // false, Function is not a int Function(int)
 /// ```

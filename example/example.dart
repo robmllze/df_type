@@ -17,66 +17,62 @@ import 'package:df_type/df_type.dart';
 
 // ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
 
+enum Alphabet { A, B, C }
+
 void main() async {
-  // Convert a String to an enum.
-  print('--- 1 ---');
+  print('Convert a String to an enum:\n');
   print(Alphabet.values.valueOf('A') == Alphabet.A); // true
   print(Alphabet.values.valueOf('a') == Alphabet.A); // true
   print(Alphabet.values.valueOf('b')); // Alphabet.B
   print(Alphabet.values.valueOf('qwerty') == null); // true
 
-  // Check if a type is nullable or not.
-  print('--- 2 ---');
+  print('\n*** Check if a type is nullable:\n');
   print(isNullable<String>()); // false
   print(isNullable<String?>()); // true
   print(isNullable<Null>()); // true
 
-  // Check if a type can be compared by value.
-  print('--- 3 ---');
+  print('\n*** Check if a type a subtype of another::\n');
+  print(isSubtype<int, num>()); // true, int is a num
+  print(isSubtype<num, int>()); // false, num is not an int
+  print(isSubtype<Future<int>, Future<dynamic>>()); // true, Future<int> is a Future<dynamic>
+  print(isSubtype<Future<dynamic>, Future<int>>()); // false, Future<dynamic> is not a Future<int>
+  print(isSubtype<int Function(int), Function>()); // true, int Function(int) is a Function
+  print(isSubtype<Function, int Function(int)>()); // false, Function is not a int Function(int)
+
+  print('\n*** Check if a type can be compared by value:\n');
   print(isEquatable<double>()); // true
   print(isEquatable<Null>()); // true
   print(isEquatable<Map<dynamic, dynamic>>()); // false
   print(isEquatable<Equatable>()); // true
 
-  // Only let a value be of a certain type, or return null.
-  print('--- 4 ---');
+  print('\n*** Only let a value be of a certain type, or return null:\n');
   print(letAsOrNull<String>(DateTime.now())); // null
   print(letAsOrNull<DateTime>(DateTime.now())); // returns the value
   print(letAsOrNull<DateTime?>(DateTime.now())); // returns the value
   print(letAsOrNull<DateTime?>(null)); // null
 
-  // Lazy-convert any standard dart type (num, double, bool, String, Duration,
-  // DateTime, etc.) to an int if sensible or return null:
-  print('--- 5 ---');
+  print('\n*** Lazy-convert types to an int or return null:\n');
   final int? i = letIntOrNull('55');
   print(i); // 55
 
-  // Lazy-convert any map from one type to another if sensible, otherwise
-  // return null.
+  print('\n*** Lazy-convert maps from one type to another or return null:\n');
   final Map<String, int>? m = letMapOrNull<String, int>({55: '56'});
-  print('--- 6 ---');
   print(m); // {55, 56}
 
-  // Lazy-convert comma separated strings, a value, or an iterable to a list if
-  // sensible, otherwise return null.
-  print('--- 7 ---');
+  print('\n*** Lazy-convert lists or return null:\n');
   print(letListOrNull<int>('1, 2, 3, 4')); // [1, 2, 3, 4]
   print(letListOrNull<int>('[1, 2, 3, 4]')); // [1, 2, 3, 4]
   print(letListOrNull<int>([1, 2, 3, 4])); // [1, 2, 3, 4]
   print(letListOrNull<int>(1)); // [1]
 
-  // Lazy-convert any value to a double if sensible, otherwise return null.
-  print('--- 8 ---');
+  print('\n*** Lazy-convert to double or return null:\n');
   print(letOrNull<double>('123')); // 123.0
 
-  // Convert a String to a Duration.
-  final Duration duration =
-      const ConvertStringToDuration('11:11:00.00').toDuration();
-  print('--- 9 ---');
+  print('\n*** Convert a String to a Duration:\n');
+  final Duration duration = const ConvertStringToDuration('11:11:00.00').toDuration();
   print(duration); // 11:11:00.000000
 
-  // Manage Futures or values via FutureOrController.
-  print('--- 10 ---');
+  print('\n*** Manage Futures or values via FutureOrController:\n');
   final a1 = Future.value(1);
   final a2 = 2;
   final a3 = Future.value(3);
@@ -92,37 +88,40 @@ void main() async {
   print(f2 is Future); // false
   print(f2); // [1, 2, 3]
 
-  // CompleterOr works with async or sync values.
-  print('--- 11 ---');
-  final completerOr1 = CompleterOr<int>();
-  completerOr1.complete(1);
-  final c1 = completerOr1.futureOr;
+  print('\n*** CompleterOr works with async or sync values:\n');
+  final completer1 = CompleterOr<int>();
+  completer1.complete(1);
+  final c1 = completer1.futureOr;
   print(c1 is Future); // false
-  final completerOr2 = CompleterOr<int>();
-  completerOr2.complete(Future.value(1));
-  final c2 = completerOr2.futureOr;
+  final completer2 = CompleterOr<int>();
+  completer2.complete(Future.value(1));
+  final c2 = completer2.futureOr;
   print(c2 is Future); // true
 
-  // The FunctionQueue can ensure that async functions will execute in the same
-  // order as they are added. This can be used for database writes, for example.
-  print('--- 12 ---');
-  final functionQueue = FunctionQueue();
-  functionQueue.add(() async {
+  // The ExecutionQueue guarantees that functions will execute in the same
+  // order as they are added:
+  print('\n*** Test function queue:\n');
+  final executionQueue = ExecutionQueue();
+  executionQueue.add(() async {
     print('Function 1 running');
     await Future<void>.delayed(const Duration(seconds: 3));
     print('Function 1 completed');
   });
-  functionQueue.add(() async {
+  executionQueue.add(() async {
     print('Function 2 running');
     await Future<void>.delayed(const Duration(seconds: 2));
     print('Function 2 completed');
   });
-  functionQueue.add(() async {
+  executionQueue.add(() async {
     print('Function 3 running');
     await Future<void>.delayed(const Duration(seconds: 1));
     print('Function 3 completed');
   });
-  await functionQueue.wait();
+  await executionQueue.add(() async {
+    print('Function 3 running');
+    await Future<void>.delayed(const Duration(seconds: 1));
+    print('Function 3 completed');
+  });
   // Prints:
   // Function 1 running
   // Function 1 completed
@@ -130,8 +129,6 @@ void main() async {
   // Function 2 completed
   // Function 3 running
   // Function 3 completed
-  print(functionQueue.add(() => 'Hello!').runtimeType); // String
-  print(functionQueue.add(() => 'World!')); // World!
+  print(executionQueue.add(() => 'Hello!').runtimeType); // String
+  print(executionQueue.add(() => 'World!')); // World!
 }
-
-enum Alphabet { A, B, C }

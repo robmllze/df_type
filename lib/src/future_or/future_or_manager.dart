@@ -78,12 +78,12 @@ class FutureOrController<T> {
   ) {
     final values = <FutureOr<T>>[];
 
-    final fc = FunctionQueue();
+    final eq = ExecutionQueue();
 
     // Evaluate all callbacks and collect exceptions.
     for (final callback in _callbacks) {
       try {
-        final test = fc.add(callback);
+        final test = eq.add(callback);
         values.add(test);
         if (test is Future<T>) {
           test.catchError((Object e) {
@@ -95,7 +95,7 @@ class FutureOrController<T> {
         addException(e);
       }
     }
-    final waited = fc.wait();
+    final waited = eq.wait();
     if (waited is Future<void>) {
       return waited.then(
         (e) => consolodator(Future.wait(values.map((e) async => await e))),
