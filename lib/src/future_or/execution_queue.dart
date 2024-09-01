@@ -54,37 +54,31 @@ class ExecutionQueue {
   ///
   /// The method returns a [FutureOr] that completes when both the function and
   /// all preceding functions in the queue have completed. This means, when
-  /// awaiting, the returned [FutureOr] will resolve only after all previous
+  /// awaiting, the returned [FutureOr] will resolve only after all prev
   /// functions, including any added with a buffer, have finished executing.
   FutureOr<T> add<T>(
-    FutureOr<T> Function() function, {
+    MapperFunction<dynamic, T> function, {
     Duration? buffer,
   }) {
-    final q = _Executable<T>(
+    final executable = _Executable<T>(
       buffer == null
           ? function
-          : () async => (await Future.wait<T>([
-                Future.value(function()),
+          : (prev) async => (await Future.wait<T>([
+                Future.value(function(prev)),
                 Future.delayed(buffer),
               ]))
                   .first,
     );
-    _queue.add(q);
-    final maybeFuture = _execute();
-    final result = q.completer.futureOr;
-    if (maybeFuture is Future) {
-      return maybeFuture.then((_) => result);
-    } else {
-      return result;
-    }
+    _queue.add(executable);
+    final result = _execute().thenOr((_) => executable.completer.futureOr);
+    return result;
   }
 
-  /// Waits for all functions in the queue to complete.
-  FutureOr<void> wait() {
-    // Basically add an empty function to the queue, which will only complete
-    // when all other functions have completed.
+  /// Waits for all functions in the queue to complete, and return the
+  /// result of the last function in the queue.
+  FutureOr<dynamic> last() {
     if (isNotEmpty) {
-      return add(() {});
+      return add<dynamic>((e) => e);
     }
   }
 
@@ -103,26 +97,25 @@ class ExecutionQueue {
       // Start executing the function if it is ready.
       if (status == _ExecutionStatus.READY) {
         executable.status = _ExecutionStatus.RUNNING;
-        final result = executable.function();
+        final result = executable.function(_previous);
 
         // Complete the function's execution based on its result type.
-        if (result is Future) {
-          // If the result is a Future, wait for it to complete, then update the
-          // status and proceed to the next function.
-          return result.then((value) {
-            executable.completer.complete(value);
-            executable.status = _ExecutionStatus.RAN;
-            return _execute();
-          });
-        } else {
-          // If the result is direct value, complete it immediately and continue
-          // with the next function.
+        return result.thenOr((dynamic value) {
+          _previous = value;
           executable.completer.complete(result);
           executable.status = _ExecutionStatus.RAN;
           return _execute();
-        }
+        });
       }
     }
+  }
+
+  /// Always stores the result of the prev function in the queue.
+  dynamic _previous;
+
+  /// Resets the prev result to `null`.
+  void reset() {
+    _previous = null;
   }
 }
 
@@ -135,7 +128,7 @@ class ExecutionQueue {
 class _Executable<T> {
   final completer = CompleterOr<T>();
   var status = _ExecutionStatus.READY;
-  final FutureOr<T> Function() function;
+  final MapperFunction<dynamic, T> function;
   _Executable(this.function);
 }
 
@@ -147,3 +140,7 @@ class _Executable<T> {
 /// - [RUNNING]: The function is currently being executed.
 /// - [RAN]: The function has been executed and completed, and is ready for garbage collection.
 enum _ExecutionStatus { READY, RUNNING, RAN }
+
+// ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+typedef MapperFunction<F, T> = FutureOr<T> Function(F prev);

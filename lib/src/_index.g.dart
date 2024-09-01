@@ -18,6 +18,7 @@ export 'extensions/try_or_null_on_function_extension.dart';
 export 'extensions/value_of_on_enum_extension.dart';
 export 'future_or/future_or_manager.dart';
 export 'future_or/execution_queue.dart';
+export 'future_or/then_or_on_future_or_x.dart';
 export 'future_or/completer_or.dart';
 
 // --- PRIVATE FILES (EXCLUDED) ---

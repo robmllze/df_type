@@ -12,7 +12,7 @@
 - `build`: Build system or external dependencies changes
 - `perf`: Performance improvements
 - `ci`: Continuous integration configuration changes
-- `revert`: Revert a previous commit
+- `revert`: Revert a prev commit
 - `security`: Security-related changes or fixes
 - `release`: Marks a release or version update
 

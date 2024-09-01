@@ -12,6 +12,8 @@
 
 // ignore_for_file: omit_local_variable_types
 
+import 'dart:async';
+
 import 'package:equatable/equatable.dart';
 import 'package:df_type/df_type.dart';
 
@@ -32,16 +34,12 @@ void main() async {
   print(isNullable<Null>()); // true
 
   print('\n*** Check if a type a subtype of another::\n');
-  print(isSubtype<int, num>()); // true, int is a num
-  print(isSubtype<num, int>()); // false, num is not an int
-  print(isSubtype<Future<int>,
-      Future<dynamic>>(),); // true, Future<int> is a Future<dynamic>
-  print(isSubtype<Future<dynamic>,
-      Future<int>>(),); // false, Future<dynamic> is not a Future<int>
-  print(isSubtype<int Function(int),
-      Function>(),); // true, int Function(int) is a Function
-  print(isSubtype<Function,
-      int Function(int)>(),); // false, Function is not a int Function(int)
+  print(isSubtype<int, num>()); // true
+  print(isSubtype<num, int>()); // false
+  print(isSubtype<Future<int>, Future<dynamic>>()); // true
+  print(isSubtype<Future<dynamic>, Future<int>>()); // false
+  print(isSubtype<int Function(int), Function>()); // true
+  print(isSubtype<Function, int Function(int)>()); // false
 
   print('\n*** Check if a type can be compared by value:\n');
   print(isEquatable<double>()); // true
@@ -73,22 +71,31 @@ void main() async {
   print(letOrNull<double>('123')); // 123.0
 
   print('\n*** Convert a String to a Duration:\n');
-  final Duration duration =
-      const ConvertStringToDuration('11:11:00.00').toDuration();
+  final Duration duration = const ConvertStringToDuration('11:11:00.00').toDuration();
   print(duration); // 11:11:00.000000
+
+  print('\n*** Use thenOr with FutureOr:\n');
+  print(1.thenOr((prev) => prev + 1)); // 2
+  FutureOr<double> pi = 3.14159;
+  final doublePi = pi.thenOr((prev) => prev * 2);
+  print(doublePi); // 6.2832
+  FutureOr<double> e = Future.value(2.71828);
+  final doubleE = e.thenOr((prev) => prev * 2);
+  print(doubleE); // Instance of 'Future<double>'
+  print(await doubleE); // 5.43656
 
   print('\n*** Manage Futures or values via FutureOrController:\n');
   final a1 = Future.value(1);
   final a2 = 2;
   final a3 = Future.value(3);
-  final foc1 = FutureOrController<dynamic>([() => a1, () => a2, () => a3]);
+  final foc1 = FutureOrController<dynamic>([(_) => a1, (_) => a2, (_) => a3]);
   final f1 = foc1.completeWithAll();
   print(f1 is Future); // true
   print(await f1); // [1, 2, 3]
   final b1 = 1;
   final b2 = 2;
   final b3 = 2;
-  final foc2 = FutureOrController<dynamic>([() => b1, () => b2, () => b3]);
+  final foc2 = FutureOrController<dynamic>([(_) => b1, (_) => b2, (_) => b3]);
   final f2 = foc2.completeWithAll();
   print(f2 is Future); // false
   print(f2); // [1, 2, 3]
@@ -107,23 +114,27 @@ void main() async {
   // order as they are added:
   print('\n*** Test function queue:\n');
   final executionQueue = ExecutionQueue();
-  executionQueue.add(() async {
+  executionQueue.add((prev) async {
+    print('Previous: $prev');
     print('Function 1 running');
     await Future<void>.delayed(const Duration(seconds: 3));
     print('Function 1 completed');
+    return 1;
   });
-  executionQueue.add(() async {
-    print('Function 2 running');
+  executionQueue.add((prev) async {
+    print('Previous: $prev');
     await Future<void>.delayed(const Duration(seconds: 2));
     print('Function 2 completed');
+    return 2;
   });
-  executionQueue.add(() async {
-    print('Function 3 running');
+  executionQueue.add((prev) async {
+    print('Previous: $prev');
     await Future<void>.delayed(const Duration(seconds: 1));
     print('Function 3 completed');
+    return 3;
   });
-  await executionQueue.add(() async {
-    print('Function 3 running');
+  await executionQueue.add((prev) async {
+    print('Previous: $prev');
     await Future<void>.delayed(const Duration(seconds: 1));
     print('Function 3 completed');
   });
@@ -134,6 +145,6 @@ void main() async {
   // Function 2 completed
   // Function 3 running
   // Function 3 completed
-  print(executionQueue.add(() => 'Hello!').runtimeType); // String
-  print(executionQueue.add(() => 'World!')); // World!
+  print(executionQueue.add((_) => 'Hello').runtimeType); // String
+  print(executionQueue.add((prev) => '$prev World!')); // Hello World!
 }

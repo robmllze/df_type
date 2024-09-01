@@ -28,7 +28,7 @@ class FutureOrController<T> {
   }
 
   /// List of callbacks to be managed by the controller.
-  final _callbacks = <_Callback<T>>[];
+  final _callbacks = <MapperFunction<dynamic, T>>[];
 
   /// List of exceptions caught during callback execution or added manually via
   /// [addException].
@@ -41,7 +41,7 @@ class FutureOrController<T> {
   List<Object> get exceptions => List.unmodifiable(_exceptions);
 
   /// Adds a single callback to the controller.
-  void add(_Callback<T> callback) {
+  void add(MapperFunction<dynamic, T> callback) {
     _callbacks.add(callback);
   }
 
@@ -77,13 +77,12 @@ class FutureOrController<T> {
     FutureOr<R> Function(FutureOr<List<T>> values) consolodator,
   ) {
     final values = <FutureOr<T>>[];
-
-    final eq = ExecutionQueue();
+    final executionQueue = ExecutionQueue();
 
     // Evaluate all callbacks and collect exceptions.
     for (final callback in _callbacks) {
       try {
-        final test = eq.add(callback);
+        final test = executionQueue.add(callback);
         values.add(test);
         if (test is Future<T>) {
           test.catchError((Object e) {
@@ -95,10 +94,10 @@ class FutureOrController<T> {
         addException(e);
       }
     }
-    final waited = eq.wait();
-    if (waited is Future<void>) {
-      return waited.then(
-        (e) => consolodator(Future.wait(values.map((e) async => await e))),
+    final last = executionQueue.last();
+    if (last is Future) {
+      return last.then(
+        (_) => consolodator(Future.wait(values.map((e) async => await e))),
       );
     } else {
       return consolodator(values.map((e) => e as T).toList());
@@ -108,8 +107,5 @@ class FutureOrController<T> {
 
 // ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
 
-/// Type definition for a callback function that returns a [FutureOr] result.
-typedef _Callback<T> = FutureOr<T> Function();
-
 /// Type definition for a list of callback functions.
-typedef _CallbackList<T> = List<_Callback<T>>;
+typedef _CallbackList<T> = List<MapperFunction<dynamic, T>>;
