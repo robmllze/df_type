@@ -34,10 +34,14 @@ void main() async {
   print('\n*** Check if a type a subtype of another::\n');
   print(isSubtype<int, num>()); // true, int is a num
   print(isSubtype<num, int>()); // false, num is not an int
-  print(isSubtype<Future<int>, Future<dynamic>>()); // true, Future<int> is a Future<dynamic>
-  print(isSubtype<Future<dynamic>, Future<int>>()); // false, Future<dynamic> is not a Future<int>
-  print(isSubtype<int Function(int), Function>()); // true, int Function(int) is a Function
-  print(isSubtype<Function, int Function(int)>()); // false, Function is not a int Function(int)
+  print(isSubtype<Future<int>,
+      Future<dynamic>>(),); // true, Future<int> is a Future<dynamic>
+  print(isSubtype<Future<dynamic>,
+      Future<int>>(),); // false, Future<dynamic> is not a Future<int>
+  print(isSubtype<int Function(int),
+      Function>(),); // true, int Function(int) is a Function
+  print(isSubtype<Function,
+      int Function(int)>(),); // false, Function is not a int Function(int)
 
   print('\n*** Check if a type can be compared by value:\n');
   print(isEquatable<double>()); // true
@@ -69,7 +73,8 @@ void main() async {
   print(letOrNull<double>('123')); // 123.0
 
   print('\n*** Convert a String to a Duration:\n');
-  final Duration duration = const ConvertStringToDuration('11:11:00.00').toDuration();
+  final Duration duration =
+      const ConvertStringToDuration('11:11:00.00').toDuration();
   print(duration); // 11:11:00.000000
 
   print('\n*** Manage Futures or values via FutureOrController:\n');
