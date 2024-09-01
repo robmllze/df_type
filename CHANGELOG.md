@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.5.1]
+
+- Released @ 9/2024 (UTC)
+- feat: Add ThenorOnFutureOrX extension and tidy code
+
 ## [0.5.0]
 
 - Released @ 9/2024 (UTC)
