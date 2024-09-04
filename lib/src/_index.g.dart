@@ -14,6 +14,8 @@ export 'type_checks/is_subtype.dart';
 export 'type_checks/type_equality.dart';
 export 'type_checks/is_nullable.dart';
 export 'conversions/string_to_duration.dart';
+export 'utils/stream_utils.dart';
+export 'utils/date_time_utils.dart';
 export 'extensions/try_or_null_on_function_extension.dart';
 export 'extensions/value_of_on_enum_extension.dart';
 export 'future_or/future_or_manager.dart';
