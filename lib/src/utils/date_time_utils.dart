@@ -33,7 +33,9 @@ abstract final class DateTimeUtils {
     final filteredDates = dates.whereType<DateTime>();
     if (filteredDates.isEmpty) return null;
     final totalMs = filteredDates.fold<int>(
-        0, (sum, date) => sum + date.millisecondsSinceEpoch,);
+      0,
+      (sum, date) => sum + date.millisecondsSinceEpoch,
+    );
     final avgMs = totalMs ~/ filteredDates.length;
     return DateTime.fromMillisecondsSinceEpoch(avgMs);
   }

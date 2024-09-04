@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.5.3]
+
+- Released @ 9/2024 (UTC)
+- fix: Make StreamUtils.newPoller statically accessible
+
 ## [0.5.2]
 
 - Released @ 9/2024 (UTC)
