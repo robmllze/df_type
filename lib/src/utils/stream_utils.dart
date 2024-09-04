@@ -49,7 +49,7 @@ abstract final class StreamUtils {
   }
 
   /// Creates a [Stream] that polls a [callback] at a specified [interval].
-  Stream<T> newPoller<T>(
+  static Stream<T> newPoller<T>(
     Future<T> Function() callback,
     Duration interval,
   ) {
