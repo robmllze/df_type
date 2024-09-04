@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.5.2]
+
+- Released @ 9/2024 (UTC)
+- feat: Add DateTimeUtils and StreamUtils
+
 ## [0.5.1]
 
 - Released @ 9/2024 (UTC)
