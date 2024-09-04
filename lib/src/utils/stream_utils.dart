@@ -37,7 +37,7 @@ abstract final class StreamUtils {
         if (!completer.isCompleted) {
           completer.completeError(
             StateError(
-              '[streamToFuture] Stream completed without emitting any values',
+              '[firstToFuture] Stream completed without emitting any values',
             ),
           );
         }
@@ -53,8 +53,11 @@ abstract final class StreamUtils {
     Future<T> Function() callback,
     Duration interval,
   ) {
-    final controller = StreamController<T>();
-    Future<void> $startPolling() async {
+    final controller = StreamController<T>.broadcast();
+    var started = false;
+
+    void startPolling() async {
+      started = true;
       try {
         while (!controller.isClosed) {
           try {
@@ -73,7 +76,12 @@ abstract final class StreamUtils {
       }
     }
 
-    $startPolling();
+    controller.onListen = () {
+      if (!started) {
+        startPolling();
+      }
+    };
+
     return controller.stream;
   }
 }
