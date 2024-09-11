@@ -10,8 +10,6 @@
 // ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
 //.title~
 
-// TODO: Create an addAll
-
 import 'dart:async' show FutureOr;
 
 import '/src/_index.g.dart';
@@ -74,6 +72,19 @@ class ExecutionQueue {
     _queue.add(executable);
     final result = _execute().thenOr((_) => executable.completer.futureOr);
     return result;
+  }
+
+  /// Adds multiple [functions] to the queue for sequential execution. See
+  /// [add].
+  List<FutureOr<dynamic>> addAll(
+    Iterable<MapperFunction<dynamic, dynamic>> functions, {
+    Duration? buffer,
+  }) {
+    final results = <FutureOr<dynamic>>[];
+    for (final function in functions) {
+      results.add(add(function, buffer: buffer));
+    }
+    return results;
   }
 
   /// Waits for all functions in the queue to complete, and return the
