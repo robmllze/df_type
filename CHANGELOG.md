@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.5.7]
+
+- Released @ 9/2024 (UTC)
+- chore: Rename FutureOr.value to FutureOr.asValue, and FutureOr.future to FutureOr.asFuture
+
 ## [0.5.6]
 
 - Released @ 9/2024 (UTC)
