@@ -28,9 +28,9 @@ extension FutureOrExtension<T> on FutureOr<T> {
     );
   }
 
-  T get value => this as T;
+  T get asValue => this as T;
 
-  Future<T> get future => this as Future<T>;
+  Future<T> get asFuture => this as Future<T>;
 }
 
 FutureOr<R> _thenOr<T, R>(
