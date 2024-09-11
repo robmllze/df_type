@@ -5,6 +5,7 @@
 - Released @ 9/2024 (UTC)
 - feat: Add .value and .future to FutureOrExtension
 - feat: Add .addAll to ExecutionQueue
+- chore: Rename FutureOr.value to FutureOr.asValue, and FutureOr.future to FutureOr.asFuture
 
 ## [0.5.5]
 
