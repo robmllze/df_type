@@ -16,7 +16,7 @@ import 'execution_queue.dart';
 
 // ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
 
-extension ThenOrOnFutureOrX<T> on FutureOr<T> {
+extension FutureOrExtension<T> on FutureOr<T> {
   FutureOr<R> thenOr<R>(
     MapperFunction<T, R> callback, {
     void Function(Object e)? onError,
@@ -27,6 +27,10 @@ extension ThenOrOnFutureOrX<T> on FutureOr<T> {
       onError,
     );
   }
+
+  T get value => this as T;
+
+  Future<T> get future => this as Future<T>;
 }
 
 FutureOr<R> _thenOr<T, R>(
