@@ -17,7 +17,7 @@ import '/src/_index.g.dart';
 // ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
 
 /// A controller for managing [FutureOr] operations and capturing exceptions.
-class FutureOrController<T> {
+class FutureOrController<T extends Object?> {
   FutureOrController._();
 
   /// Factory constructor to create a [FutureOrController] with optional callbacks.
