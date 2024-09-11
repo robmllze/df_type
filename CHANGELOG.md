@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.5.6]
+
+- Released @ 9/2024 (UTC)
+- feat: Add .value and .future to FutureOrExtension
+
 ## [0.5.5]
 
 - Released @ 9/2024 (UTC)
