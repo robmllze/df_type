@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.5.5]
+
+- Released @ 9/2024 (UTC)
+- refactor: Change T for FutureOrController from dynamic to Object?
+
 ## [0.5.4]
 
 - Released @ 9/2024 (UTC)
