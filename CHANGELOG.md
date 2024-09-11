@@ -4,6 +4,7 @@
 
 - Released @ 9/2024 (UTC)
 - feat: Add .value and .future to FutureOrExtension
+- feat: Add .addAll to ExecutionQueue
 
 ## [0.5.5]
 
