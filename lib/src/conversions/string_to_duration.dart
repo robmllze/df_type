@@ -15,7 +15,7 @@ class ConvertStringToDuration {
   //
   //
   //
- 
+
   final String? input;
 
   //
