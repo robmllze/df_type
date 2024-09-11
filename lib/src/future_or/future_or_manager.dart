@@ -52,28 +52,28 @@ class FutureOrController<T> {
 
   /// Evaluates all registered callbacks.
   FutureOr<void> complete() {
-    return completeWithResults<void>((results) {});
+    return completeWith<void>((results) {});
   }
 
   /// Evaluates all registered callbacks and returns the first result.
-  FutureOr<T> completeWithFirst() => completeWithResults<T>(
+  FutureOr<T> completeWithFirst() => completeWith<T>(
         (r) => r is Future<List<T>> ? r.then((e) => e.first) : r.first,
       );
 
   /// Evaluates all registered callbacks and returns the last result.
-  FutureOr<T> completeWithLast() => completeWithResults<T>(
+  FutureOr<T> completeWithLast() => completeWith<T>(
         (r) => r is Future<List<T>> ? r.then((e) => e.last) : r.last,
       );
 
   /// Evaluates all registered callbacks and returns all the results.
-  FutureOr<List<T>> completeWithAll() => completeWithResults((r) => r);
+  FutureOr<List<T>> completeWithAll() => completeWith((r) => r);
 
   /// Evaluates all registered callbacks and returns the results, as
   /// determined by the [consolodator] function.
   ///
   /// If any exceptions occur during the execution of callbacks, they are added
   /// to the [exceptions] list.
-  FutureOr<R> completeWithResults<R>(
+  FutureOr<R> completeWith<R>(
     FutureOr<R> Function(FutureOr<List<T>> values) consolodator,
   ) {
     final values = <FutureOr<T>>[];

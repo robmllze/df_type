@@ -38,7 +38,7 @@ class CompleterOr<T> {
   ///
   /// This method can only be called once. Subsequent calls have no effect if
   /// the [CompleterOr] has already been completed.
-  void complete([FutureOr<T>? value]) {
+  void complete(FutureOr<T> value) {
     if (isCompleted) return;
     if (value is Future<T>) {
       _completer.complete(value);

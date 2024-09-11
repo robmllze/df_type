@@ -30,18 +30,18 @@ extension ThenOrOnFutureOrX<T> on FutureOr<T> {
 }
 
 FutureOr<R> _thenOr<T, R>(
-  FutureOr<T> valueOr,
+  FutureOr<T> value,
   MapperFunction<T, R> callback,
   void Function(Object e)? onError,
 ) {
-  if (valueOr is Future<T>) {
-    return valueOr.then(
+  if (value is Future<T>) {
+    return value.then(
       callback,
       onError: onError,
     );
   } else {
     try {
-      return callback(valueOr);
+      return callback(value);
     } catch (e) {
       onError?.call(e);
       rethrow;
