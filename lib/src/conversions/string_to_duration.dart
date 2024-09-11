@@ -15,27 +15,27 @@ class ConvertStringToDuration {
   //
   //
   //
-
-  final String? inputString;
-
-  //
-  //
-  //
-
-  const ConvertStringToDuration(this.inputString);
+ 
+  final String? input;
 
   //
   //
   //
 
-  /// Tries to convert the [inputString] to a [Duration]. Accepts formats like
+  const ConvertStringToDuration(this.input);
+
+  //
+  //
+  //
+
+  /// Tries to convert the [input] to a [Duration]. Accepts formats like
   /// `HH`, `HH:MM`, `HH:MM:SS`, and `HH:MM:SS.SSS`. Any components not specified
   /// are set to 0.
   ///
   /// Returns `null` if the conversion fails.
   Duration? toDurationOrNull() {
-    if (inputString == null || inputString!.isEmpty) return null;
-    final parts = inputString!.trim().split(':');
+    if (input == null || input!.isEmpty) return null;
+    final parts = input!.trim().split(':');
     var hours = 0;
     var minutes = 0;
     var seconds = 0;
@@ -81,11 +81,11 @@ class ConvertStringToDuration {
     );
   }
 
-  /// Tries convert the [inputString] to a [Duration]. It assumes the
-  /// [inputString] format is `HH:MM:SS.SSS`. Throws [ConvertStringToDurationEx]
+  /// Tries convert the [input] to a [Duration]. It assumes the
+  /// [input] format is `HH:MM:SS.SSS`. Throws [ConvertStringToDurationEx]
   /// on error.
   Duration toDuration() {
-    if (inputString == null) {
+    if (input == null) {
       throw const _StringIsNullEx();
     }
     try {
