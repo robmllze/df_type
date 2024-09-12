@@ -103,6 +103,32 @@ class FutureOrController<T> {
       return consolodator(values.map((e) => e as T).toList());
     }
   }
+
+  /// Waits for multiple [values] to complete, collects their results, and
+  /// returns them in the same order.
+  static FutureOr<List<T>> wait<T>(
+    List<FutureOr<T>> values, {
+    bool eagerError = false,
+    void Function(T)? cleanUp,
+  }) {
+    var hasFuture = false;
+
+    for (final value in values) {
+      if (value is Future<T>) {
+        hasFuture = true;
+        break;
+      }
+    }
+    if (hasFuture) {
+      return Future.wait(
+        values.map((e) async => e),
+        eagerError: eagerError,
+        cleanUp: cleanUp,
+      );
+    } else {
+      return values.cast<T>();
+    }
+  }
 }
 
 // ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░

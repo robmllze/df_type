@@ -3,7 +3,7 @@
 ## [0.5.8]
 
 - Released @ 9/2024 (UTC)
-- chore: thenOr, asValue and asFuture no longer supports null types
+- refactor: Tidy some code
 
 ## [0.5.7]
 
