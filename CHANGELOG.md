@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.5.11]
+
+- Released @ 9/2024 (UTC)
+- fix: Fix potential error with .last() in ExecutionQueue
+
 ## [0.5.10]
 
 - Released @ 9/2024 (UTC)
