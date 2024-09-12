@@ -92,9 +92,7 @@ class ExecutionQueue {
   /// Waits for all functions in the queue to complete, and return the
   /// result of the last function in the queue.
   FutureOr<dynamic> last() {
-    if (isNotEmpty) {
-      return add<dynamic>((e) => e);
-    }
+     return add<dynamic>((e) => e);
   }
 
   /// Processes the next executable in the queue that isn't already RUNNING,
