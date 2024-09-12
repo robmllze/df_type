@@ -21,7 +21,7 @@ extension FutureOrExtension<T extends Object> on FutureOr<T> {
     MapperFunction<T, R> callback, {
     void Function(Object e)? onError,
   }) {
-    return futureOr<T, R>(
+    return mapFutureOr<T, R>(
       this,
       callback,
       onError: onError,
@@ -35,7 +35,7 @@ extension FutureOrExtension<T extends Object> on FutureOr<T> {
 
 // ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
 
-FutureOr<R> futureOr<T extends Object?, R extends Object?>(
+FutureOr<R> mapFutureOr<T extends Object?, R extends Object?>(
   FutureOr<T> value,
   MapperFunction<T, R> callback, {
   void Function(Object e)? onError,
