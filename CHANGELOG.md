@@ -1,10 +1,14 @@
 # Changelog
 
+## [0.5.8]
+
+- Released @ 9/2024 (UTC)
+- chore: thenOr, asValue and asFuture no longer supports null types
+
 ## [0.5.7]
 
 - Released @ 9/2024 (UTC)
 - chore: Rename FutureOr.value to FutureOr.asValue, and FutureOr.future to FutureOr.asFuture
-- chore: thenOr, asValue and asFuture no longer supports null types
 
 ## [0.5.6]
 
