@@ -12,23 +12,28 @@
 
 import 'dart:async' show FutureOr;
 
-import 'map_future_or.dart';
-
 // ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
 
-extension FutureOrExtension<T extends Object> on FutureOr<T> {
-  FutureOr<R> thenOr<R extends Object?>(
-    MapperFunction<T, R> callback, {
-    void Function(Object e)? onError,
-  }) {
-    return mapFutureOr<T, R>(
-      this,
+FutureOr<R> mapFutureOr<T extends Object?, R extends Object?>(
+  FutureOr<T> value,
+  MapperFunction<T, R> callback, {
+  void Function(Object e)? onError,
+}) {
+  if (value is Future<T>) {
+    return value.then(
       callback,
       onError: onError,
     );
+  } else {
+    try {
+      return callback(value);
+    } catch (e) {
+      onError?.call(e);
+      rethrow;
+    }
   }
-
-  T get asValue => this as T;
-
-  Future<T> get asFuture => this as Future<T>;
 }
+
+// ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+typedef MapperFunction<F, T> = FutureOr<T> Function(F prev);

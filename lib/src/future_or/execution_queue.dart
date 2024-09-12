@@ -12,7 +12,8 @@
 
 import 'dart:async' show FutureOr;
 
-import '/src/_index.g.dart';
+import 'completer_or.dart';
+import 'map_future_or.dart';
 
 // ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
 
@@ -153,7 +154,3 @@ class _Executable<T> {
 /// - [RUNNING]: The function is currently being executed.
 /// - [RAN]: The function has been executed and completed, and is ready for garbage collection.
 enum _ExecutionStatus { READY, RUNNING, RAN }
-
-// ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
-
-typedef MapperFunction<F, T> = FutureOr<T> Function(F prev);

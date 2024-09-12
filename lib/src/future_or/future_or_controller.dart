@@ -12,7 +12,8 @@
 
 import 'dart:async';
 
-import '/src/_index.g.dart';
+import 'execution_queue.dart';
+import 'map_future_or.dart';
 
 // ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
 
