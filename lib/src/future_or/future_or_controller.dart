@@ -107,7 +107,7 @@ class FutureOrController<T> {
   /// Waits for multiple [values] to complete, collects their results, and
   /// returns them in the same order.
   static FutureOr<List<T>> wait<T>(
-    List<FutureOr<T>> values, {
+    Iterable<FutureOr<T>> values, {
     bool eagerError = false,
     void Function(T)? cleanUp,
   }) {
@@ -126,7 +126,7 @@ class FutureOrController<T> {
         cleanUp: cleanUp,
       );
     } else {
-      return values.cast<T>();
+      return values.cast<T>().toList();
     }
   }
 }
