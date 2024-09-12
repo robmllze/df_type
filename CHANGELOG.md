@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.5.9]
+
+- Released @ 9/2024 (UTC)
+- feat: Add static wait function to FutureOrController
+
 ## [0.5.8]
 
 - Released @ 9/2024 (UTC)
