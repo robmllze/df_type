@@ -71,7 +71,8 @@ class ExecutionQueue {
                   .first,
     );
     _queue.add(executable);
-    final result = mapFutureOr(_execute(), (_) => executable.completer.futureOr);
+    final result =
+        mapFutureOr(_execute(), (_) => executable.completer.futureOr);
     return result;
   }
 

@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.5.10]
+
+- Released @ 9/2024 (UTC)
+- fix: thenOr extension now only works on Object
+
 ## [0.5.9]
 
 - Released @ 9/2024 (UTC)
