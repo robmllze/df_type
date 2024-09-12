@@ -70,7 +70,7 @@ class ExecutionQueue {
                   .first,
     );
     _queue.add(executable);
-    final result = _execute().thenOr((_) => executable.completer.futureOr);
+    final result = futureOr(_execute(), (_) => executable.completer.futureOr);
     return result;
   }
 
@@ -113,7 +113,7 @@ class ExecutionQueue {
         final result = executable.function(_previous);
 
         // Complete the function's execution based on its result type.
-        return result.thenOr((dynamic value) {
+        return futureOr(result, (dynamic value) {
           _previous = value;
           executable.completer.complete(result);
           executable.status = _ExecutionStatus.RAN;

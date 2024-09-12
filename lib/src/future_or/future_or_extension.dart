@@ -16,15 +16,15 @@ import 'execution_queue.dart';
 
 // ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
 
-extension FutureOrObjectExtension<T extends Object?> on FutureOr<T> {
+extension FutureOrExtension<T extends Object> on FutureOr<T> {
   FutureOr<R> thenOr<R extends Object?>(
     MapperFunction<T, R> callback, {
     void Function(Object e)? onError,
   }) {
-    return _thenOr<T, R>(
+    return futureOr<T, R>(
       this,
       callback,
-      onError,
+      onError: onError,
     );
   }
 
@@ -35,11 +35,11 @@ extension FutureOrObjectExtension<T extends Object?> on FutureOr<T> {
 
 // ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
 
-FutureOr<R> _thenOr<T extends Object?, R extends Object?>(
+FutureOr<R> futureOr<T extends Object?, R extends Object?>(
   FutureOr<T> value,
-  MapperFunction<T, R> callback,
+  MapperFunction<T, R> callback, {
   void Function(Object e)? onError,
-) {
+}) {
   if (value is Future<T>) {
     return value.then(
       callback,
