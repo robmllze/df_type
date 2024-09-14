@@ -4,7 +4,6 @@
 
 - Released @ 9/2024 (UTC)
 - fix: Fix potential error with .last() in ExecutionQueue
-- chore: Add asResolvedOrNull and asFutureOrNull to FutureOrExtension
 
 ## [0.5.10]
 
