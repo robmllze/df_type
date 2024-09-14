@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.5.12]
+
+- Released @ 9/2024 (UTC)
+- chore: Add asResolvedOrNull and asFutureOrNull to FutureOrExtension
+
 ## [0.5.11]
 
 - Released @ 9/2024 (UTC)
