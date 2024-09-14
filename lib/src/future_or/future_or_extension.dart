@@ -28,7 +28,23 @@ extension FutureOrExtension<T extends Object> on FutureOr<T> {
     );
   }
 
-  T get asValue => this as T;
+  T get asResolved {
+    try {
+      return asResolvedOrNull!;
+    } catch (e) {
+      throw StateError('[asResolved] The value is not resolved.');
+    }
+  }
 
-  Future<T> get asFuture => this as Future<T>;
+  T? get asResolvedOrNull => this is T ? this as T : null;
+
+  Future<T> get asFuture {
+    try {
+      return asFutureOrNull!;
+    } catch (e) {
+      throw StateError('[asFuture] The value is not a Future.');
+    }
+  }
+
+  Future<T>? get asFutureOrNull => this is Future<T> ? this as Future<T> : null;
 }
