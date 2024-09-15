@@ -10,30 +10,31 @@
 // ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
 //.title~
 
-import 'dart:async' show FutureOr;
+import 'package:df_type/src/future_or/sequential.dart';
+
+final queue = Sequential();
 
 // ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
 
-FutureOr<R> mapFutureOr<T extends Object?, R extends Object?>(
-  FutureOr<T> value,
-  MapperFunction<T, R> callback, {
-  void Function(Object e)? onError,
-}) {
-  if (value is Future<T>) {
-    return value.then(
-      callback,
-      onError: onError,
-    );
-  } else {
-    try {
-      return callback(value);
-    } catch (e) {
-      onError?.call(e);
-      rethrow;
-    }
-  }
+void main() {
+  queue.add((_) async {
+    //await Future<void>.delayed(const Duration(seconds: 5));
+    print(1);
+  });
+  queue.add((_) async {
+    //await Future<void>.delayed(const Duration(seconds: 4));
+    print(2);
+  });
+  queue.add((_) async {
+    // await Future<void>.delayed(const Duration(seconds: 3));
+    print(3);
+  });
+  queue.add((_) async {
+    //await Future<void>.delayed(const Duration(seconds: 2));
+    print(4);
+  });
+  queue.add((_) async {
+    //await Future<void>.delayed(const Duration(seconds: 1));
+    print(5);
+  });
 }
-
-// ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
-
-typedef MapperFunction<F, T> = FutureOr<T> Function(F prev);

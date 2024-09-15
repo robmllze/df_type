@@ -12,8 +12,8 @@
 
 import 'dart:async';
 
-import 'execution_queue.dart';
-import 'map_future_or.dart';
+import 'sequential.dart';
+import 'map_sync_or_async.dart';
 
 // ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
 
@@ -29,7 +29,7 @@ class FutureOrController<T> {
   }
 
   /// List of callbacks to be managed by the controller.
-  final _callbacks = <MapperFunction<dynamic, T>>[];
+  final _callbacks = <TSyncOrAsyncMapper<dynamic, T>>[];
 
   /// List of exceptions caught during callback execution or added manually via
   /// [addException].
@@ -42,7 +42,7 @@ class FutureOrController<T> {
   List<Object> get exceptions => List.unmodifiable(_exceptions);
 
   /// Adds a single callback to the controller.
-  void add(MapperFunction<dynamic, T> callback) {
+  void add(TSyncOrAsyncMapper<dynamic, T> callback) {
     _callbacks.add(callback);
   }
 
@@ -78,12 +78,12 @@ class FutureOrController<T> {
     FutureOr<R> Function(FutureOr<List<T>> values) consolodator,
   ) {
     final values = <FutureOr<T>>[];
-    final executionQueue = ExecutionQueue();
+    final sequential = Sequential();
 
     // Evaluate all callbacks and collect exceptions.
     for (final callback in _callbacks) {
       try {
-        final test = executionQueue.add(callback);
+        final test = sequential.add(callback);
         values.add(test);
         if (test is Future<T>) {
           test.catchError((Object e) {
@@ -95,7 +95,7 @@ class FutureOrController<T> {
         addException(e);
       }
     }
-    final last = executionQueue.last();
+    final last = sequential.last;
     if (last is Future) {
       return last.then(
         (_) => consolodator(Future.wait(values.map((e) async => await e))),
@@ -135,4 +135,4 @@ class FutureOrController<T> {
 // ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
 
 /// Type definition for a list of callback functions.
-typedef _CallbackList<T> = List<MapperFunction<dynamic, T>>;
+typedef _CallbackList<T> = List<TSyncOrAsyncMapper<dynamic, T>>;

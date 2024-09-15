@@ -71,8 +71,7 @@ void main() async {
   print(letOrNull<double>('123')); // 123.0
 
   print('\n*** Convert a String to a Duration:\n');
-  final Duration duration =
-      const ConvertStringToDuration('11:11:00.00').toDuration();
+  final Duration duration = const ConvertStringToDuration('11:11:00.00').toDuration();
   print(duration); // 11:11:00.000000
 
   print('\n*** Use thenOr with FutureOr:\n');
@@ -111,30 +110,30 @@ void main() async {
   final c2 = completer2.futureOr;
   print(c2 is Future); // true
 
-  // The ExecutionQueue guarantees that functions will execute in the same
-  // order as they are added:
-  print('\n*** Test function queue:\n');
-  final executionQueue = ExecutionQueue();
-  executionQueue.add((prev) async {
+  // The Sequential guarantees that functions will execute in the same order as,
+  // they are added, even if they are asynchronous.
+  print('\n*** Test Sequential:\n');
+  final sequential = Sequential();
+  sequential.add((prev) async {
     print('Previous: $prev');
     print('Function 1 running');
     await Future<void>.delayed(const Duration(seconds: 3));
     print('Function 1 completed');
     return 1;
   });
-  executionQueue.add((prev) async {
+  sequential.add((prev) async {
     print('Previous: $prev');
     await Future<void>.delayed(const Duration(seconds: 2));
     print('Function 2 completed');
     return 2;
   });
-  executionQueue.add((prev) async {
+  sequential.add((prev) async {
     print('Previous: $prev');
     await Future<void>.delayed(const Duration(seconds: 1));
     print('Function 3 completed');
     return 3;
   });
-  await executionQueue.add((prev) async {
+  await sequential.add((prev) async {
     print('Previous: $prev');
     await Future<void>.delayed(const Duration(seconds: 1));
     print('Function 3 completed');
@@ -146,6 +145,6 @@ void main() async {
   // Function 2 completed
   // Function 3 running
   // Function 3 completed
-  print(executionQueue.add((_) => 'Hello').runtimeType); // String
-  print(executionQueue.add((prev) => '$prev World!')); // Hello World!
+  print(sequential.add((_) => 'Hello').runtimeType); // String
+  print(sequential.add((prev) => '$prev World!')); // Hello World!
 }

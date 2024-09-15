@@ -18,9 +18,9 @@ export 'utils/stream_utils.dart';
 export 'utils/date_time_utils.dart';
 export 'extensions/try_or_null_on_function_extension.dart';
 export 'extensions/value_of_on_enum_extension.dart';
-export 'future_or/map_future_or.dart';
+export 'future_or/map_sync_or_async.dart';
 export 'future_or/future_or_controller.dart';
-export 'future_or/execution_queue.dart';
+export 'future_or/sequential.dart';
 export 'future_or/future_or_extension.dart';
 export 'future_or/completer_or.dart';
 

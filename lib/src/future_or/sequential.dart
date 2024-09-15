@@ -13,7 +13,90 @@
 import 'dart:async' show FutureOr;
 
 import 'completer_or.dart';
-import 'map_future_or.dart';
+import 'map_sync_or_async.dart';
+
+// ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+/// A queue that manages the execution of functions sequentially, allowing for
+/// optional throttling.
+class Sequential {
+  //
+  //
+  //
+
+  final Duration? _buffer;
+
+  /// The current value or future in the queue.
+  FutureOr<dynamic>? _current;
+
+  /// Indicates whether the queue is empty or processing.
+  bool get isEmpty => _isEmpty;
+  bool _isEmpty = true;
+
+  //
+  //
+  //
+
+  /// Creates an [Sequential] with an optional [buffer] for throttling
+  /// execution.
+  Sequential({
+    Duration? buffer,
+  }) : _buffer = buffer;
+
+  /// Adds a [function] to the queue that processes the previous value.
+  /// Applies an optional [buffer] duration to throttle the execution.
+  FutureOr<T> add<T>(
+    FutureOr<T> Function(dynamic previous) function, {
+    Duration? buffer,
+  }) {
+    final buffer1 = buffer ?? _buffer;
+    if (buffer1 == null) {
+      return _enqueue<T>(function);
+    } else {
+      return _enqueue<T>((previous) {
+        return Future.wait<dynamic>([
+          Future.value(function(previous)),
+          Future<void>.delayed(buffer1),
+        ]).then((e) => e.first as T);
+      });
+    }
+  }
+
+  /// Adds multiple [functions] to the queue for sequential execution. See
+  /// [add].
+  List<FutureOr<T>> addAll<T>(
+    Iterable<FutureOr<T> Function(dynamic previous)> functions, {
+    Duration? buffer,
+  }) {
+    final results = <FutureOr<T>>[];
+    for (final function in functions) {
+      results.add(add(function, buffer: buffer));
+    }
+    return results;
+  }
+
+  /// Eenqueue a [function] without buffering.
+  FutureOr<T> _enqueue<T>(FutureOr<T> Function(dynamic previous) function) {
+    _isEmpty = false;
+    final temp = mapSyncOrAsync(
+      mapSyncOrAsync(
+        _current,
+        (previous) {
+          return function(previous);
+        },
+      ),
+      (result) {
+        _isEmpty = true;
+        return result;
+      },
+    );
+    _current = temp;
+    return temp;
+  }
+
+  /// Retrieves the last value in the queue without altering the queue.
+  FutureOr<dynamic> get last => add<dynamic>((e) => e);
+}
 
 // ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
 
@@ -32,6 +115,7 @@ import 'map_future_or.dart';
 /// You can introduce a delay before a function executes by specifying a
 /// `buffer` duration. This is useful for scenarios where you need to throttle
 /// execution.
+@Deprecated('"ExecutionQueue" has been replaced with "Sequential".')
 class ExecutionQueue {
   //
   //
@@ -58,7 +142,7 @@ class ExecutionQueue {
   /// awaiting, the returned [FutureOr] will resolve only after all prev
   /// functions, including any added with a buffer, have finished executing.
   FutureOr<T> add<T>(
-    MapperFunction<dynamic, T> function, {
+    TSyncOrAsyncMapper<dynamic, T> function, {
     Duration? buffer,
   }) {
     final executable = _Executable<T>(
@@ -71,15 +155,14 @@ class ExecutionQueue {
                   .first,
     );
     _queue.add(executable);
-    final result =
-        mapFutureOr(_execute(), (_) => executable.completer.futureOr);
+    final result = mapSyncOrAsync(_execute(), (_) => executable.completer.futureOr);
     return result;
   }
 
   /// Adds multiple [functions] to the queue for sequential execution. See
   /// [add].
   List<FutureOr<dynamic>> addAll(
-    Iterable<MapperFunction<dynamic, dynamic>> functions, {
+    Iterable<TSyncOrAsyncMapper<dynamic, dynamic>> functions, {
     Duration? buffer,
   }) {
     final results = <FutureOr<dynamic>>[];
@@ -113,7 +196,7 @@ class ExecutionQueue {
         final result = executable.function(_previous);
 
         // Complete the function's execution based on its result type.
-        return mapFutureOr(result, (dynamic value) {
+        return mapSyncOrAsync(result, (dynamic value) {
           _previous = value;
           executable.completer.complete(result);
           executable.status = _ExecutionStatus.RAN;
@@ -141,7 +224,7 @@ class ExecutionQueue {
 class _Executable<T> {
   final completer = CompleterOr<T>();
   var status = _ExecutionStatus.READY;
-  final MapperFunction<dynamic, T> function;
+  final TSyncOrAsyncMapper<dynamic, T> function;
   _Executable(this.function);
 }
 

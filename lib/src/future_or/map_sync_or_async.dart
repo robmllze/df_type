@@ -12,40 +12,28 @@
 
 import 'dart:async' show FutureOr;
 
-import 'map_sync_or_async.dart';
-
 // ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
 
-extension FutureOrExtension<T extends Object> on FutureOr<T> {
-  /// Maps a synchronous or asynchronous value to another.
-  FutureOr<R> thenOr<R extends Object?>(
-    TSyncOrAsyncMapper<T, R> callback, {
-    void Function(Object e)? onError,
-  }) {
-    return mapSyncOrAsync<T, R>(
-      this,
+FutureOr<R> mapSyncOrAsync<T, R>(
+  FutureOr<T> value,
+  TSyncOrAsyncMapper<T, R> callback, {
+  void Function(Object e)? onError,
+}) {
+  if (value is Future<T>) {
+    return value.then(
       callback,
       onError: onError,
     );
-  }
-
-  /// Casts a value to a synchronous value or throws a [TypeError] if the value
-  /// is a [Future].
-  T get asSync {
+  } else {
     try {
-      return asSyncOrNull!;
+      return callback(value);
     } catch (e) {
-      throw TypeError();
+      onError?.call(e);
+      rethrow;
     }
   }
-
-  /// Casts a value to a synchronous value or returns `null` if the value is a
-  /// [Future].
-  T? get asSyncOrNull => this is T ? this as T : null;
-
-  /// Casts a value to a [Future] wrap the value in a [Future] if it is
-  /// synchronous.
-  Future<T> get asAsync {
-    return this is Future<T> ? this as Future<T> : Future<T>.value(this);
-  }
 }
+
+// ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
+
+typedef TSyncOrAsyncMapper<F, T> = FutureOr<T> Function(F prev);
