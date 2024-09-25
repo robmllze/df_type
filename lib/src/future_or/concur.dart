@@ -48,22 +48,12 @@ FutureOr<R> concur<A, R>(
   FutureOr<R> Function(A a) callback, {
   void Function(Object e)? onError,
 }) {
-  try {
-    if ([a].whereType<Future<dynamic>>().isNotEmpty) {
-      return Future.wait(
-        [a].map((e) async => e),
-      ).then((values) {
-        return callback(values[0]);
-      });
-    } else {
-      return callback(
-        a as A,
-      );
-    }
-  } catch (e) {
-    onError?.call(e);
-    rethrow;
-  }
+  return concurList<R>(
+    [a],
+    (items) => callback(
+      items[0] as A,
+    ),
+  );
 }
 
 /// Maps two synchronous or asynchronous values to a single value.
@@ -73,23 +63,13 @@ FutureOr<R> concur2<A, B, R>(
   FutureOr<R> Function(A a, B b) callback, {
   void Function(Object e)? onError,
 }) {
-  try {
-    if ([a, b].whereType<Future<dynamic>>().isNotEmpty) {
-      return Future.wait(
-        [a, b].map((e) async => e),
-      ).then((values) {
-        return callback(values[0] as A, values[1] as B);
-      });
-    } else {
-      return callback(
-        a as A,
-        b as B,
-      );
-    }
-  } catch (e) {
-    onError?.call(e);
-    rethrow;
-  }
+  return concurList<R>(
+    [a],
+    (items) => callback(
+      items[0] as A,
+      items[1] as B,
+    ),
+  );
 }
 
 /// Maps three synchronous or asynchronous values to a single value.
@@ -100,28 +80,14 @@ FutureOr<R> concur3<A, B, C, R>(
   FutureOr<R> Function(A a, B b, C c) callback, {
   void Function(Object e)? onError,
 }) {
-  try {
-    if ([a, b, c].whereType<Future<dynamic>>().isNotEmpty) {
-      return Future.wait(
-        [a, b, c].map((e) async => e),
-      ).then((values) {
-        return callback(
-          values[0] as A,
-          values[1] as B,
-          values[2] as C,
-        );
-      });
-    } else {
-      return callback(
-        a as A,
-        b as B,
-        c as C,
-      );
-    }
-  } catch (e) {
-    onError?.call(e);
-    rethrow;
-  }
+  return concurList<R>(
+    [a],
+    (items) => callback(
+      items[0] as A,
+      items[1] as B,
+      items[2] as C,
+    ),
+  );
 }
 
 /// Maps four synchronous or asynchronous values to a single value.
@@ -133,25 +99,15 @@ FutureOr<R> concur4<A, B, C, D, R>(
   FutureOr<R> Function(A a, B b, C c, D d) callback, {
   void Function(Object e)? onError,
 }) {
-  try {
-    if ([a, b, c, d].whereType<Future<dynamic>>().isNotEmpty) {
-      return Future.wait(
-        [a, b, c, d].map((e) async => e),
-      ).then((values) {
-        return callback(
-          values[0] as A,
-          values[1] as B,
-          values[2] as C,
-          values[3] as D,
-        );
-      });
-    } else {
-      return callback(a as A, b as B, c as C, d as D);
-    }
-  } catch (e) {
-    onError?.call(e);
-    rethrow;
-  }
+  return concurList<R>(
+    [a],
+    (items) => callback(
+      items[0] as A,
+      items[1] as B,
+      items[2] as C,
+      items[3] as D,
+    ),
+  );
 }
 
 /// Maps five synchronous or asynchronous values to a single value.
@@ -164,26 +120,16 @@ FutureOr<R> concur5<A, B, C, D, E, R>(
   FutureOr<R> Function(A a, B b, C c, D d, E e) callback, {
   void Function(Object e)? onError,
 }) {
-  try {
-    if ([a, b, c, d, e].whereType<Future<dynamic>>().isNotEmpty) {
-      return Future.wait(
-        [a, b, c, d, e].map((e) async => e),
-      ).then((values) {
-        return callback(
-          values[0] as A,
-          values[1] as B,
-          values[2] as C,
-          values[3] as D,
-          values[4] as E,
-        );
-      });
-    } else {
-      return callback(a as A, b as B, c as C, d as D, e as E);
-    }
-  } catch (e) {
-    onError?.call(e);
-    rethrow;
-  }
+  return concurList<R>(
+    [a],
+    (items) => callback(
+      items[0] as A,
+      items[1] as B,
+      items[2] as C,
+      items[3] as D,
+      items[4] as E,
+    ),
+  );
 }
 
 /// Maps six synchronous or asynchronous values to a single value.
@@ -197,27 +143,17 @@ FutureOr<R> concur6<A, B, C, D, E, F, R>(
   FutureOr<R> Function(A a, B b, C c, D d, E e, F f) callback, {
   void Function(Object e)? onError,
 }) {
-  try {
-    if ([a, b, c, d, e, f].whereType<Future<dynamic>>().isNotEmpty) {
-      return Future.wait(
-        [a, b, c, d, e, f].map((e) async => e),
-      ).then((values) {
-        return callback(
-          values[0] as A,
-          values[1] as B,
-          values[2] as C,
-          values[3] as D,
-          values[4] as E,
-          values[5] as F,
-        );
-      });
-    } else {
-      return callback(a as A, b as B, c as C, d as D, e as E, f as F);
-    }
-  } catch (e) {
-    onError?.call(e);
-    rethrow;
-  }
+  return concurList<R>(
+    [a],
+    (items) => callback(
+      items[0] as A,
+      items[1] as B,
+      items[2] as C,
+      items[3] as D,
+      items[4] as E,
+      items[5] as F,
+    ),
+  );
 }
 
 /// Maps seven synchronous or asynchronous values to a single value.
@@ -232,28 +168,18 @@ FutureOr<R> concur7<A, B, C, D, E, F, G, R>(
   FutureOr<R> Function(A a, B b, C c, D d, E e, F f, G g) callback, {
   void Function(Object e)? onError,
 }) {
-  try {
-    if ([a, b, c, d, e, f, g].whereType<Future<dynamic>>().isNotEmpty) {
-      return Future.wait(
-        [a, b, c, d, e, f, g].map((e) async => e),
-      ).then((values) {
-        return callback(
-          values[0] as A,
-          values[1] as B,
-          values[2] as C,
-          values[3] as D,
-          values[4] as E,
-          values[5] as F,
-          values[6] as G,
-        );
-      });
-    } else {
-      return callback(a as A, b as B, c as C, d as D, e as E, f as F, g as G);
-    }
-  } catch (e) {
-    onError?.call(e);
-    rethrow;
-  }
+  return concurList<R>(
+    [a],
+    (items) => callback(
+      items[0] as A,
+      items[1] as B,
+      items[2] as C,
+      items[3] as D,
+      items[4] as E,
+      items[5] as F,
+      items[6] as G,
+    ),
+  );
 }
 
 /// Maps eight synchronous or asynchronous values to a single value.
@@ -269,38 +195,19 @@ FutureOr<R> concur8<A, B, C, D, E, F, G, H, R>(
   FutureOr<R> Function(A a, B b, C c, D d, E e, F f, G g, H h) callback, {
   void Function(Object e)? onError,
 }) {
-  try {
-    if ([a, b, c, d, e, f, g, h].whereType<Future<dynamic>>().isNotEmpty) {
-      return Future.wait(
-        [a, b, c, d, e, f, g, h].map((e) async => e),
-      ).then((values) {
-        return callback(
-          values[0] as A,
-          values[1] as B,
-          values[2] as C,
-          values[3] as D,
-          values[4] as E,
-          values[5] as F,
-          values[6] as G,
-          values[7] as H,
-        );
-      });
-    } else {
-      return callback(
-        a as A,
-        b as B,
-        c as C,
-        d as D,
-        e as E,
-        f as F,
-        g as G,
-        h as H,
-      );
-    }
-  } catch (e) {
-    onError?.call(e);
-    rethrow;
-  }
+  return concurList<R>(
+    [a],
+    (items) => callback(
+      items[0] as A,
+      items[1] as B,
+      items[2] as C,
+      items[3] as D,
+      items[4] as E,
+      items[5] as F,
+      items[6] as G,
+      items[7] as H,
+    ),
+  );
 }
 
 /// Maps nine synchronous or asynchronous values to a single value.
@@ -317,38 +224,18 @@ FutureOr<R> concur9<A, B, C, D, E, F, G, H, I, R>(
   FutureOr<R> Function(A a, B b, C c, D d, E e, F f, G g, H h, I i) callback, {
   void Function(Object e)? onError,
 }) {
-  try {
-    if ([a, b, c, d, e, f, g, h, i].whereType<Future<dynamic>>().isNotEmpty) {
-      return Future.wait(
-        [a, b, c, d, e, f, g, h, i].map((e) async => e),
-      ).then((values) {
-        return callback(
-          values[0] as A,
-          values[1] as B,
-          values[2] as C,
-          values[3] as D,
-          values[4] as E,
-          values[5] as F,
-          values[6] as G,
-          values[7] as H,
-          values[8] as I,
-        );
-      });
-    } else {
-      return callback(
-        a as A,
-        b as B,
-        c as C,
-        d as D,
-        e as E,
-        f as F,
-        g as G,
-        h as H,
-        i as I,
-      );
-    }
-  } catch (e) {
-    onError?.call(e);
-    rethrow;
-  }
+  return concurList<R>(
+    [a],
+    (items) => callback(
+      items[0] as A,
+      items[1] as B,
+      items[2] as C,
+      items[3] as D,
+      items[4] as E,
+      items[5] as F,
+      items[6] as G,
+      items[7] as H,
+      items[8] as I,
+    ),
+  );
 }
