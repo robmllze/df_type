@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.5.15]
+
+- Released @ 9/2024 (UTC)
+- fix: Fix issue with concur method names
+
 ## [0.5.14]
 
 - Released @ 9/2024 (UTC)
