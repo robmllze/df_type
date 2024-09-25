@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.5.16]
+
+- Released @ 9/2024 (UTC)
+- chore: Simplify code in concur.dart
+
 ## [0.5.15]
 
 - Released @ 9/2024 (UTC)
