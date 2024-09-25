@@ -64,7 +64,7 @@ FutureOr<R> consec2<A, B, R>(
   void Function(Object e)? onError,
 }) {
   return consecList<R>(
-    [a],
+    [a, b],
     (items) => callback(
       items[0] as A,
       items[1] as B,
@@ -81,7 +81,7 @@ FutureOr<R> consec3<A, B, C, R>(
   void Function(Object e)? onError,
 }) {
   return consecList<R>(
-    [a],
+    [a, b, c],
     (items) => callback(
       items[0] as A,
       items[1] as B,
@@ -100,7 +100,7 @@ FutureOr<R> consec4<A, B, C, D, R>(
   void Function(Object e)? onError,
 }) {
   return consecList<R>(
-    [a],
+    [a, b, c, d],
     (items) => callback(
       items[0] as A,
       items[1] as B,
@@ -121,7 +121,7 @@ FutureOr<R> consec5<A, B, C, D, E, R>(
   void Function(Object e)? onError,
 }) {
   return consecList<R>(
-    [a],
+    [a, b, c, d, e],
     (items) => callback(
       items[0] as A,
       items[1] as B,
@@ -144,7 +144,7 @@ FutureOr<R> consec6<A, B, C, D, E, F, R>(
   void Function(Object e)? onError,
 }) {
   return consecList<R>(
-    [a],
+    [a, b, c, d, e, f],
     (items) => callback(
       items[0] as A,
       items[1] as B,
@@ -169,7 +169,7 @@ FutureOr<R> consec7<A, B, C, D, E, F, G, R>(
   void Function(Object e)? onError,
 }) {
   return consecList<R>(
-    [a],
+    [a, b, c, d, e, f, g],
     (items) => callback(
       items[0] as A,
       items[1] as B,
@@ -196,7 +196,7 @@ FutureOr<R> consec8<A, B, C, D, E, F, G, H, R>(
   void Function(Object e)? onError,
 }) {
   return consecList<R>(
-    [a],
+    [a, b, c, d, e, f, g, h],
     (items) => callback(
       items[0] as A,
       items[1] as B,
@@ -225,7 +225,7 @@ FutureOr<R> consec9<A, B, C, D, E, F, G, H, I, R>(
   void Function(Object e)? onError,
 }) {
   return consecList<R>(
-    [a],
+    [a, b, c, d, e, f, g, h, i],
     (items) => callback(
       items[0] as A,
       items[1] as B,
