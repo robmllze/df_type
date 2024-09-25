@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.5.18]
+
+- Released @ 9/2024 (UTC)
+- fix: Fix error in consec.dart
+
 ## [0.5.17]
 
 - Released @ 9/2024 (UTC)
