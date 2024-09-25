@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.5.17]
+
+- Released @ 9/2024 (UTC)
+- refactor: Rename concur to consec for clarity
+
 ## [0.5.16]
 
 - Released @ 9/2024 (UTC)
