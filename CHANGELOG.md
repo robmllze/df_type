@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.5.14]
+
+- Released @ 9/2024 (UTC)
+- feat: Rename mapSyncToAsync function to concur and add functions for multiple mapping like concur2, concur3, etc.
+
 ## [0.5.13]
 
 - Released @ 9/2024 (UTC)
