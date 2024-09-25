@@ -67,7 +67,7 @@ FutureOr<R> concur<A, R>(
 }
 
 /// Maps two synchronous or asynchronous values to a single value.
-FutureOr<R> mapSyncOrAsync2<A, B, R>(
+FutureOr<R> concur2<A, B, R>(
   FutureOr<A> a,
   FutureOr<B> b,
   FutureOr<R> Function(A a, B b) callback, {
@@ -93,7 +93,7 @@ FutureOr<R> mapSyncOrAsync2<A, B, R>(
 }
 
 /// Maps three synchronous or asynchronous values to a single value.
-FutureOr<R> mapSyncOrAsync3<A, B, C, R>(
+FutureOr<R> concur3<A, B, C, R>(
   FutureOr<A> a,
   FutureOr<B> b,
   FutureOr<C> c,
@@ -125,7 +125,7 @@ FutureOr<R> mapSyncOrAsync3<A, B, C, R>(
 }
 
 /// Maps four synchronous or asynchronous values to a single value.
-FutureOr<R> mapSyncOrAsync4<A, B, C, D, R>(
+FutureOr<R> concur4<A, B, C, D, R>(
   FutureOr<A> a,
   FutureOr<B> b,
   FutureOr<C> c,
@@ -155,7 +155,7 @@ FutureOr<R> mapSyncOrAsync4<A, B, C, D, R>(
 }
 
 /// Maps five synchronous or asynchronous values to a single value.
-FutureOr<R> mapSyncOrAsync5<A, B, C, D, E, R>(
+FutureOr<R> concur5<A, B, C, D, E, R>(
   FutureOr<A> a,
   FutureOr<B> b,
   FutureOr<C> c,
@@ -187,7 +187,7 @@ FutureOr<R> mapSyncOrAsync5<A, B, C, D, E, R>(
 }
 
 /// Maps six synchronous or asynchronous values to a single value.
-FutureOr<R> mapSyncOrAsync6<A, B, C, D, E, F, R>(
+FutureOr<R> concur6<A, B, C, D, E, F, R>(
   FutureOr<A> a,
   FutureOr<B> b,
   FutureOr<C> c,
@@ -221,7 +221,7 @@ FutureOr<R> mapSyncOrAsync6<A, B, C, D, E, F, R>(
 }
 
 /// Maps seven synchronous or asynchronous values to a single value.
-FutureOr<R> mapSyncOrAsync7<A, B, C, D, E, F, G, R>(
+FutureOr<R> concur7<A, B, C, D, E, F, G, R>(
   FutureOr<A> a,
   FutureOr<B> b,
   FutureOr<C> c,
@@ -257,7 +257,7 @@ FutureOr<R> mapSyncOrAsync7<A, B, C, D, E, F, G, R>(
 }
 
 /// Maps eight synchronous or asynchronous values to a single value.
-FutureOr<R> mapSyncOrAsync8<A, B, C, D, E, F, G, H, R>(
+FutureOr<R> concur8<A, B, C, D, E, F, G, H, R>(
   FutureOr<A> a,
   FutureOr<B> b,
   FutureOr<C> c,
@@ -304,7 +304,7 @@ FutureOr<R> mapSyncOrAsync8<A, B, C, D, E, F, G, H, R>(
 }
 
 /// Maps nine synchronous or asynchronous values to a single value.
-FutureOr<R> mapSyncOrAsync9<A, B, C, D, E, F, G, H, I, R>(
+FutureOr<R> concur9<A, B, C, D, E, F, G, H, I, R>(
   FutureOr<A> a,
   FutureOr<B> b,
   FutureOr<C> c,
