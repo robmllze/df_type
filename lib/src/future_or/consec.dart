@@ -19,7 +19,7 @@ typedef TSyncOrAsyncMapper<A, R> = FutureOr<R> Function(A a);
 // ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
 
 /// Maps a synchronous or asynchronous list of values to a single value.
-FutureOr<R> concurList<R>(
+FutureOr<R> consecList<R>(
   List<FutureOr<dynamic>> items,
   FutureOr<R> Function(List<dynamic> resolvedItems) callback, {
   void Function(Object e)? onError,
@@ -40,15 +40,15 @@ FutureOr<R> concurList<R>(
   }
 }
 
-final mapSyncOrAsync = concur;
+final mapSyncOrAsync = consec;
 
 /// Maps a synchronous or asynchronous value to a single value.
-FutureOr<R> concur<A, R>(
+FutureOr<R> consec<A, R>(
   FutureOr<A> a,
   FutureOr<R> Function(A a) callback, {
   void Function(Object e)? onError,
 }) {
-  return concurList<R>(
+  return consecList<R>(
     [a],
     (items) => callback(
       items[0] as A,
@@ -57,13 +57,13 @@ FutureOr<R> concur<A, R>(
 }
 
 /// Maps two synchronous or asynchronous values to a single value.
-FutureOr<R> concur2<A, B, R>(
+FutureOr<R> consec2<A, B, R>(
   FutureOr<A> a,
   FutureOr<B> b,
   FutureOr<R> Function(A a, B b) callback, {
   void Function(Object e)? onError,
 }) {
-  return concurList<R>(
+  return consecList<R>(
     [a],
     (items) => callback(
       items[0] as A,
@@ -73,14 +73,14 @@ FutureOr<R> concur2<A, B, R>(
 }
 
 /// Maps three synchronous or asynchronous values to a single value.
-FutureOr<R> concur3<A, B, C, R>(
+FutureOr<R> consec3<A, B, C, R>(
   FutureOr<A> a,
   FutureOr<B> b,
   FutureOr<C> c,
   FutureOr<R> Function(A a, B b, C c) callback, {
   void Function(Object e)? onError,
 }) {
-  return concurList<R>(
+  return consecList<R>(
     [a],
     (items) => callback(
       items[0] as A,
@@ -91,7 +91,7 @@ FutureOr<R> concur3<A, B, C, R>(
 }
 
 /// Maps four synchronous or asynchronous values to a single value.
-FutureOr<R> concur4<A, B, C, D, R>(
+FutureOr<R> consec4<A, B, C, D, R>(
   FutureOr<A> a,
   FutureOr<B> b,
   FutureOr<C> c,
@@ -99,7 +99,7 @@ FutureOr<R> concur4<A, B, C, D, R>(
   FutureOr<R> Function(A a, B b, C c, D d) callback, {
   void Function(Object e)? onError,
 }) {
-  return concurList<R>(
+  return consecList<R>(
     [a],
     (items) => callback(
       items[0] as A,
@@ -111,7 +111,7 @@ FutureOr<R> concur4<A, B, C, D, R>(
 }
 
 /// Maps five synchronous or asynchronous values to a single value.
-FutureOr<R> concur5<A, B, C, D, E, R>(
+FutureOr<R> consec5<A, B, C, D, E, R>(
   FutureOr<A> a,
   FutureOr<B> b,
   FutureOr<C> c,
@@ -120,7 +120,7 @@ FutureOr<R> concur5<A, B, C, D, E, R>(
   FutureOr<R> Function(A a, B b, C c, D d, E e) callback, {
   void Function(Object e)? onError,
 }) {
-  return concurList<R>(
+  return consecList<R>(
     [a],
     (items) => callback(
       items[0] as A,
@@ -133,7 +133,7 @@ FutureOr<R> concur5<A, B, C, D, E, R>(
 }
 
 /// Maps six synchronous or asynchronous values to a single value.
-FutureOr<R> concur6<A, B, C, D, E, F, R>(
+FutureOr<R> consec6<A, B, C, D, E, F, R>(
   FutureOr<A> a,
   FutureOr<B> b,
   FutureOr<C> c,
@@ -143,7 +143,7 @@ FutureOr<R> concur6<A, B, C, D, E, F, R>(
   FutureOr<R> Function(A a, B b, C c, D d, E e, F f) callback, {
   void Function(Object e)? onError,
 }) {
-  return concurList<R>(
+  return consecList<R>(
     [a],
     (items) => callback(
       items[0] as A,
@@ -157,7 +157,7 @@ FutureOr<R> concur6<A, B, C, D, E, F, R>(
 }
 
 /// Maps seven synchronous or asynchronous values to a single value.
-FutureOr<R> concur7<A, B, C, D, E, F, G, R>(
+FutureOr<R> consec7<A, B, C, D, E, F, G, R>(
   FutureOr<A> a,
   FutureOr<B> b,
   FutureOr<C> c,
@@ -168,7 +168,7 @@ FutureOr<R> concur7<A, B, C, D, E, F, G, R>(
   FutureOr<R> Function(A a, B b, C c, D d, E e, F f, G g) callback, {
   void Function(Object e)? onError,
 }) {
-  return concurList<R>(
+  return consecList<R>(
     [a],
     (items) => callback(
       items[0] as A,
@@ -183,7 +183,7 @@ FutureOr<R> concur7<A, B, C, D, E, F, G, R>(
 }
 
 /// Maps eight synchronous or asynchronous values to a single value.
-FutureOr<R> concur8<A, B, C, D, E, F, G, H, R>(
+FutureOr<R> consec8<A, B, C, D, E, F, G, H, R>(
   FutureOr<A> a,
   FutureOr<B> b,
   FutureOr<C> c,
@@ -195,7 +195,7 @@ FutureOr<R> concur8<A, B, C, D, E, F, G, H, R>(
   FutureOr<R> Function(A a, B b, C c, D d, E e, F f, G g, H h) callback, {
   void Function(Object e)? onError,
 }) {
-  return concurList<R>(
+  return consecList<R>(
     [a],
     (items) => callback(
       items[0] as A,
@@ -211,7 +211,7 @@ FutureOr<R> concur8<A, B, C, D, E, F, G, H, R>(
 }
 
 /// Maps nine synchronous or asynchronous values to a single value.
-FutureOr<R> concur9<A, B, C, D, E, F, G, H, I, R>(
+FutureOr<R> consec9<A, B, C, D, E, F, G, H, I, R>(
   FutureOr<A> a,
   FutureOr<B> b,
   FutureOr<C> c,
@@ -224,7 +224,7 @@ FutureOr<R> concur9<A, B, C, D, E, F, G, H, I, R>(
   FutureOr<R> Function(A a, B b, C c, D d, E e, F f, G g, H h, I i) callback, {
   void Function(Object e)? onError,
 }) {
-  return concurList<R>(
+  return consecList<R>(
     [a],
     (items) => callback(
       items[0] as A,

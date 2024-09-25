@@ -13,7 +13,7 @@
 import 'dart:async' show FutureOr;
 
 import 'completer_or.dart';
-import 'concur.dart';
+import 'consec.dart';
 
 // ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░
 
